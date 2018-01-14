@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">MelvinApp</string>
+    <string name="enter_name">Item Name</string>
+    <string name="add_record">Add</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_delete">Delete</string>
+    <string name="empty_list_text">No records found</string>
+    <string name="enter_desc">Quantity</string>
+    <string name="enter_title">Item</string>
+    <string name="search_name">Get</string>
+
+    <string-array name="equipment">
+        <item>Bio Chamber</item>
+        <item>Carts/Accessory</item>
+        <item>CO2 Gas</item>
+        <item>Colorimeter</item>
+        <item>Conductivity Probe</item>
+        <item>Current Probe</item>
+        <item>Cuvette Rack</item>
+        <item>Differential Voltage Probe</item>
+        <item>Gas Pressure Sensor</item>
+        <item>LabQuest Mini</item>
+        <item>Magnetic Field</item>
+        <item>O2 Gas</item>
+        <item>pH sensor</item>
+        <item>Photogate</item>
+        <item>Plastic Cuvettes (visible range)</item>
+        <item>SpectroVis Optical Fiber</item>
+        <item>SpectroVis Plus Spectrophotometer</item>
+        <item>Spirometer</item>
+        <item>Temperature</item>
+        <item>UVA sensor</item>
+        <item>UVB sensor</item>
+    </string-array>
+
+    <integer-array name="equipment_quantity">
+
+    </integer-array>
+</resources>
