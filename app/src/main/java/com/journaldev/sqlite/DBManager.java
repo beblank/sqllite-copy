@@ -17,6 +17,33 @@ public class DBManager {
     private SQLiteDatabase database;
     private static final String TAG = "ItemsDbAdapter";
 
+    // predetermined list
+    private final String[] LIST_NAME = {
+            "Bio Chamber",
+            "Carts/ Accessory",
+            "CO2 Gas",
+            "Colorimeter",
+            "Conductivity Probe",
+            "Current Probe",
+            "Cuvette Rack",
+            "Differential Voltage Probe",
+            "Dissolved Oxygen",
+            "Gas Pressure Sensor",
+            "LabQuest Mini",
+            "Light Sensor",
+            "Magnetic Field",
+            "O2 Gas",
+            "pH sensor",
+            "Photogate",
+            "Plastic Cuvettes (visible range)",
+            "SpectroVis Optical Fiber",
+            "SpectroVis Plus Spectrophotometer",
+            "Spirometer",
+            "Temperature",
+            "UVA sensor",
+            "UVB sensor"};
+    private final String[] LIST_QTY = {"20", "2", "14", "13", "13", "9", "0", "9", "1", "12", "22", "10", "2", "6", "13", "16", "0", "1", "1", "3", "16", "1", "1"};
+
     public DBManager(Context c) {
         context = c;
     }
@@ -29,6 +56,12 @@ public class DBManager {
 
     public void close() {
         dbHelper.close();
+    }
+
+    public void predeterminedList(){
+        for(int i=0;i<LIST_NAME.length;i++) {
+            insert(LIST_NAME[i], LIST_QTY[i]);
+        }
     }
 
     public void insert(String name, String quantity) {
