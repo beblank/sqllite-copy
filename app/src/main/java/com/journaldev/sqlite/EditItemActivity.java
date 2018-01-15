@@ -62,7 +62,7 @@ public class EditItemActivity extends Activity implements OnClickListener {
                 }else{
                     dbManager.update(_id, titleText.getText().toString(), descText.getText().toString());
 
-                    Intent main = new Intent(EditItemActivity.this, MainActivity.class)
+                    Intent main = new Intent(EditItemActivity.this, ToolListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     this.returnHome();
@@ -77,7 +77,7 @@ public class EditItemActivity extends Activity implements OnClickListener {
     }
 
     public void returnHome() {
-        Intent home_intent = new Intent(getApplicationContext(), MainActivity.class)
+        Intent home_intent = new Intent(getApplicationContext(), ToolListActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(home_intent);
     }

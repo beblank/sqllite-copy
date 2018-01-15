@@ -48,7 +48,7 @@ public class AddItemActivity extends Activity implements OnClickListener {
                 }else{
                     dbManager.insert(subjectEditText.getText().toString(), descEditText.getText().toString());
 
-                    Intent main = new Intent(AddItemActivity.this, MainActivity.class)
+                    Intent main = new Intent(AddItemActivity.this, ToolListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     startActivity(main);
