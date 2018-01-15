@@ -11,11 +11,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_NAME = "ITEMS";
+    public static final String TABLE_ORDER = "CART";
 
     // Table columns
     public static final String _ID = "_id";
-    public static final String NAME = "subject";
-    public static final String QUANTITY = "description";
+    public static final String NAME = "name";
+    public static final String QUANTITY = "quantity";
 
     // Database Information
     static final String DB_NAME = "ITEMS.DB";
@@ -24,7 +25,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
     // Creating table query
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + _ID
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + _ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL, " + QUANTITY + " INTEGER);";
+    private static final String ORDER_TABLE = "CREATE TABLE " + TABLE_ORDER + "(" + _ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL, " + QUANTITY + " INTEGER);";
 
     public DatabaseHelper(Context context) {
@@ -34,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
+        db.execSQL(ORDER_TABLE);
     }
 
     @Override

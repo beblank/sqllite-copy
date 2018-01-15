@@ -40,7 +40,7 @@ public class ToolListActivity extends Activity {
         searchFilter = (EditText) findViewById(R.id.searchFilter);
         dbManager = new DBManager(this);
         dbManager.open();
-        Cursor cursor = dbManager.fetch();
+        Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_NAME);
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));

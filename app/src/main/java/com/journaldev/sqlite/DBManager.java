@@ -71,10 +71,20 @@ public class DBManager {
         database.insert(DatabaseHelper.TABLE_NAME, null, contentValue);
     }
 
-    public Cursor fetch() {
+    public Cursor fetch(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME,
+        Cursor cursor = database.query(tableName,
+                columns, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
+    public Cursor fetchName(String tableName) {
+        String[] columns = new String[] {DatabaseHelper.NAME};
+        Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
