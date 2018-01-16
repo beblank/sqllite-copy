@@ -1,26 +1,24 @@
 package com.journaldev.sqlite;
 
-import android.app.Activity;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class AddOrderActivity extends Activity implements View.OnClickListener {
+public class TakeOrderActivity extends AppCompatActivity {
 
     private DBManager dbManager;
-    private SimpleCursorAdapter adapter;
 
     Spinner nameOrderSpinner;
-    Button orderButton;
-    String selectedItemName;
+    Spinner qtyOrderSpinner;
+
+    private SimpleCursorAdapter adapter;
 
     final String[] from = new String[] { DatabaseHelper.NAME };
 
@@ -29,10 +27,10 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_order);
+        setContentView(R.layout.activity_take_order);
 
-        nameOrderSpinner = (Spinner)findViewById(R.id.add_name_order_spinner);
-        orderButton = (Button) findViewById(R.id.add_order);
+        nameOrderSpinner = (Spinner)findViewById(R.id.take_name_order_spinner);
+        qtyOrderSpinner = (Spinner)findViewById(R.id.take_qty_order_spinner);
 
         dbManager = new DBManager(this);
         dbManager.open();
@@ -45,8 +43,6 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
         nameOrderSpinner.setAdapter(adapter);
 
         spinnerClick();
-
-        orderButton.setOnClickListener(this);
     }
 
     private void spinnerClick() {
@@ -55,17 +51,33 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Cursor cursor=(Cursor)parentView.getSelectedItem();
                 String itemName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
-                selectedItemName = itemName;
+                setQtySpinnerList(itemName);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
             }
 
         });
     }
 
-    @Override
-    public void onClick(View v) {
+    private void setQtySpinnerList(String itemName) {
 
+        ArrayList<Integer> qtyList = new ArrayList<Integer>();
+
+        dbManager = new DBManager(this);
+        dbManager.open();
+        int qty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, itemName));
+        if (qty != 0){
+            for (int i = 1; i <= qty; i++){
+                qtyList.add(i);
+            }
+        }
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_view_order, qtyList);
+        adapter.setDropDownViewResource(R.layout.list_view_order);
+        adapter.notifyDataSetChanged();
+        qtyOrderSpinner.setAdapter(adapter);
+        qtyOrderSpinner.invalidate();
     }
 }

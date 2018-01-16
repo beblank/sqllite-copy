@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:dividerHeight="1dp"
         android:layout_below="@+id/searchFilterOrder"
+        android:layout_weight="0.9"
         android:padding="10dp" >
     </ListView>
 
@@ -22,7 +23,6 @@
         android:id="@+id/order_add_btn"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_weight="1"
         android:text="Add" />
 
 </LinearLayout>

@@ -37,6 +37,7 @@
             android:name=".AddOrderActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".TakeOrderActivity"></activity>
     </application>
 
 </manifest>

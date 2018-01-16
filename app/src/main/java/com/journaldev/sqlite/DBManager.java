@@ -63,16 +63,16 @@ public class DBManager {
         Log.d(TAG, "predeterminedList: " + cursor.getCount());
         if (cursor.getCount()==0){
             for(int i=0;i<LIST_NAME.length;i++) {
-                insert(LIST_NAME[i], LIST_QTY[i]);
+                insert(DatabaseHelper.TABLE_ITEM, LIST_NAME[i], LIST_QTY[i]);
             }
         }
     }
 
-    public void insert(String name, String quantity) {
+    public void insert(String tableName, String name, String quantity) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.QUANTITY, quantity);
-        database.insert(DatabaseHelper.TABLE_ITEM, null, contentValue);
+        database.insert(tableName, null, contentValue);
     }
 
     public Cursor fetch(String tableName) {
