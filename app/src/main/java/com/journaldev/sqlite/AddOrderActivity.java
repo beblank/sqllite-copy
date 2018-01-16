@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 public class AddOrderActivity extends Activity {
@@ -35,5 +37,30 @@ public class AddOrderActivity extends Activity {
         adapter.notifyDataSetChanged();
 
         nameOrderSpinner.setAdapter(adapter);
+
+        spinnerClick();
     }
+
+    private void spinnerClick() {
+        nameOrderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Cursor cursor=(Cursor)parentView.getSelectedItem();
+                String itemName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
+                setQtySpinnerList(itemName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
+    private void setQtySpinnerList(String itemName) {
+
+    }
+
+
 }
