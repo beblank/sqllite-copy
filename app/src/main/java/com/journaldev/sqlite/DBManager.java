@@ -98,6 +98,18 @@ public class DBManager {
         return cursor;
     }
 
+    public String fetchQty(String tableName, String itemName) {
+
+        String result = "0";
+        String query = "SELECT " +  DatabaseHelper.QUANTITY  + " FROM " + DatabaseHelper.TABLE_ITEM + " WHERE "+ DatabaseHelper.NAME +" = '" + itemName + "'";
+        Cursor  cursor = database.rawQuery(query,null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            result =  cursor.getString(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
+        }
+        return result;
+    }
+
     public Cursor fetchItemsByName(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = null;

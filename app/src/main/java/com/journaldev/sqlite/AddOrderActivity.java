@@ -7,13 +7,17 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 public class AddOrderActivity extends Activity {
 
     private DBManager dbManager;
 
     Spinner nameOrderSpinner;
+    Spinner qtyOrderSpinner;
 
     private SimpleCursorAdapter adapter;
 
@@ -27,6 +31,7 @@ public class AddOrderActivity extends Activity {
         setContentView(R.layout.activity_add_order);
 
         nameOrderSpinner = (Spinner)findViewById(R.id.add_name_order_spinner);
+        qtyOrderSpinner = (Spinner)findViewById(R.id.add_qty_order_spinner);
 
         dbManager = new DBManager(this);
         dbManager.open();
@@ -60,6 +65,21 @@ public class AddOrderActivity extends Activity {
 
     private void setQtySpinnerList(String itemName) {
 
+        ArrayList<Integer> qtyList = new ArrayList<Integer>();
+
+        dbManager = new DBManager(this);
+        dbManager.open();
+        int qty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, itemName));
+        if (qty != 0){
+            //for (int i = 1; i <= qty; i++){
+                qtyList.add(qty);
+            //}
+        }
+        //if (qtyList.size() == qty){
+            ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, qtyList);
+            adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+            qtyOrderSpinner.setAdapter(adapter);
+        //}
     }
 
 
