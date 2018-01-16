@@ -27,7 +27,7 @@ public class ToolListActivity extends Activity {
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
 
-    final int[] to = new int[] { R.id.id, R.id.title, R.id.qty };
+    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class ToolListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent,
                                     View view, int position, long viewId) {
                 TextView idTextView = (TextView) view.findViewById(R.id.id);
-                TextView titleTextView = (TextView) view.findViewById(R.id.title);
-                TextView descTextView = (TextView) view.findViewById(R.id.desc);
+                TextView titleTextView = (TextView) view.findViewById(R.id.name);
+                TextView descTextView = (TextView) view.findViewById(R.id.qty);
 
                 String id = idTextView.getText().toString();
                 String title = titleTextView.getText().toString();
