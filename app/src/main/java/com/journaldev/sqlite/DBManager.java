@@ -59,8 +59,12 @@ public class DBManager {
     }
 
     public void predeterminedList(){
-        for(int i=0;i<LIST_NAME.length;i++) {
-            insert(LIST_NAME[i], LIST_QTY[i]);
+        Cursor cursor = fetch(DatabaseHelper.TABLE_ITEM);
+        Log.d(TAG, "predeterminedList: " + cursor.getCount());
+        if (cursor.getCount()==0){
+            for(int i=0;i<LIST_NAME.length;i++) {
+                insert(LIST_NAME[i], LIST_QTY[i]);
+            }
         }
     }
 
