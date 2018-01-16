@@ -2,6 +2,7 @@ package com.journaldev.sqlite;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,12 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
     Button addOrder;
     private ListView listView;
 
+    private SimpleCursorAdapter adapter;
+
+    final String[] from = new String[] { DatabaseHelper._ID,
+            DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+
+    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,15 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+
+        listView = (ListView) findViewById(R.id.order_list_view);
+        listView.setEmptyView(findViewById(R.id.empty));
+
+        adapter = new SimpleCursorAdapter(this,
+                R.layout.list_view_items, cursor, from, to, 0);
+        adapter.notifyDataSetChanged();
+
+        listView.setAdapter(adapter);
 
         addOrder.setOnClickListener(this);
 
