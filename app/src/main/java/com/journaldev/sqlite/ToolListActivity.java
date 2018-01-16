@@ -16,8 +16,6 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 public class ToolListActivity extends Activity {
 
     private DBManager dbManager;
@@ -29,7 +27,7 @@ public class ToolListActivity extends Activity {
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
 
-    final int[] to = new int[] { R.id.id, R.id.title, R.id.desc };
+    final int[] to = new int[] { R.id.id, R.id.title, R.id.qty };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +45,7 @@ public class ToolListActivity extends Activity {
         listView.setEmptyView(findViewById(R.id.empty));
 
         adapter = new SimpleCursorAdapter(this,
-                R.layout.activity_view_record, cursor, from, to, 0);
+                R.layout.list_view_items, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
 
 
