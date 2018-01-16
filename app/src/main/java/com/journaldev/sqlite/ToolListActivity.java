@@ -39,7 +39,7 @@ public class ToolListActivity extends Activity {
         dbManager = new DBManager(this);
         dbManager.open();
         dbManager.predeterminedList();
-        Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_NAME);
+        Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));

@@ -68,7 +68,7 @@ public class DBManager {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.QUANTITY, quantity);
-        database.insert(DatabaseHelper.TABLE_NAME, null, contentValue);
+        database.insert(DatabaseHelper.TABLE_ITEM, null, contentValue);
     }
 
     public Cursor fetch(String tableName) {
@@ -83,11 +83,13 @@ public class DBManager {
     }
 
     public Cursor fetchName(String tableName) {
-        String[] columns = new String[] {DatabaseHelper.NAME};
+        String[] columns = new String[] { DatabaseHelper._ID,
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
         Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
+            cursor.getString(1);
         }
         return cursor;
     }
@@ -98,12 +100,12 @@ public class DBManager {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
         if (inputText == null  ||  inputText.length () == 0)  {
-            mCursor = database.query(DatabaseHelper.TABLE_NAME,
+            mCursor = database.query(DatabaseHelper.TABLE_ITEM,
                     columns, null, null, null, null, null);
 
         }
         else {
-            mCursor = database.query(true, DatabaseHelper.TABLE_NAME, columns,
+            mCursor = database.query(true, DatabaseHelper.TABLE_ITEM, columns,
                     DatabaseHelper.NAME + " like '%" + inputText + "%'", null,
                     null, null, null, null);
         }
@@ -118,12 +120,12 @@ public class DBManager {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
         contentValues.put(DatabaseHelper.QUANTITY, desc);
-        int i = database.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper._ID + " = " + _id, null);
+        int i = database.update(DatabaseHelper.TABLE_ITEM, contentValues, DatabaseHelper._ID + " = " + _id, null);
         return i;
     }
 
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
+        database.delete(DatabaseHelper.TABLE_ITEM, DatabaseHelper._ID + "=" + _id, null);
     }
 
 }
