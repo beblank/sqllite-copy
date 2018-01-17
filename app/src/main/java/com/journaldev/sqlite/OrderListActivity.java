@@ -36,6 +36,12 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
         searchFilter = (EditText) findViewById(R.id.searchFilterOrder);
         addOrder = (Button) findViewById(R.id.order_add_btn);
         finalOrder = (Button) findViewById(R.id.order_final_btn);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);

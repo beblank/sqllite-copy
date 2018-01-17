@@ -88,8 +88,11 @@ public class EditItemActivity extends Activity implements OnClickListener {
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home);
         } else if (caller.equals("item")){
-            Log.d("TAG", "returnHome: to tool list" );
             Intent home = new Intent(getApplicationContext(), ToolListActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(home);
+        } else if (caller.equals("final")){
+            Intent home = new Intent(getApplicationContext(), FinalizeActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home);
         }

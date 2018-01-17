@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -57,6 +59,30 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
         listView.setAdapter(adapter);
 
         doneBtn.setOnClickListener(this);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent,
+                                    View view, int position, long viewId) {
+                TextView idTextView = (TextView) view.findViewById(R.id.id);
+                TextView titleTextView = (TextView) view.findViewById(R.id.name);
+                TextView descTextView = (TextView) view.findViewById(R.id.qty);
+
+                String id = idTextView.getText().toString();
+                String title = titleTextView.getText().toString();
+                String desc = descTextView.getText().toString();
+
+                Intent modify_intent = new Intent(getApplicationContext(),
+                        EditItemActivity.class);
+                modify_intent.putExtra("title", title);
+                modify_intent.putExtra("desc", desc);
+                modify_intent.putExtra("id", id);
+                modify_intent.putExtra("table", DatabaseHelper.TABLE_ORDER);
+                modify_intent.putExtra("caller", "final");
+
+                startActivity(modify_intent);
+            }
+        });
     }
 
     @Override
