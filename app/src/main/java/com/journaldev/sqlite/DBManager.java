@@ -132,6 +132,14 @@ public class DBManager {
 
     }
 
+    public int updateQty(String name, int curQty, int newQty){
+        ContentValues contentValues = new ContentValues();
+        int qty = curQty + newQty;
+        contentValues.put(DatabaseHelper.QUANTITY, qty);
+        int i = database.update(DatabaseHelper.TABLE_ITEM, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
+        return i;
+    }
+
     public int update(long _id, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);

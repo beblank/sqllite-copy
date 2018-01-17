@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 public class FinalizeActivity extends Activity implements View.OnClickListener {
 
     private DBManager dbManager;
@@ -18,6 +20,15 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
     private ListView listView;
 
     private SimpleCursorAdapter adapter;
+
+    Cursor orderCursor;
+    Cursor itemCursor;
+
+
+
+    String orderName;
+    int orderQty;
+
 
     final String[] from = new String[] { DatabaseHelper._ID,
             DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
@@ -35,10 +46,12 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
 
         dbManager = new DBManager(this);
         dbManager.open();
-        Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
+
 
         adapter = new SimpleCursorAdapter(this,
-                R.layout.list_view_items, cursor, from, to, 0);
+                R.layout.list_view_items, orderCursor, from, to, 0);
         adapter.notifyDataSetChanged();
 
         listView.setAdapter(adapter);
@@ -50,7 +63,13 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.done_btn:
-                Log.d("finalize", "onClick: ");
+            for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                orderName = orderCursor.getString(1);
+                orderQty = orderCursor.getInt(2);
+                int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
+                dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty);
+            }
+
             break;
         }
     }
