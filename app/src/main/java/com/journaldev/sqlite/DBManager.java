@@ -140,16 +140,16 @@ public class DBManager {
         return i;
     }
 
-    public int update(long _id, String name, String desc) {
+    public int update(String tableName, long _id, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
         contentValues.put(DatabaseHelper.QUANTITY, desc);
-        int i = database.update(DatabaseHelper.TABLE_ITEM, contentValues, DatabaseHelper._ID + " = " + _id, null);
+        int i = database.update(tableName, contentValues, DatabaseHelper._ID + " = " + _id, null);
         return i;
     }
 
-    public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_ITEM, DatabaseHelper._ID + "=" + _id, null);
+    public void delete(String tableName, long _id) {
+        database.delete(tableName, DatabaseHelper._ID + "=" + _id, null);
     }
 
     public void deleteTable(String tableName){

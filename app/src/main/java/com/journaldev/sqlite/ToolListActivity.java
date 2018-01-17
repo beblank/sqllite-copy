@@ -68,6 +68,8 @@ public class ToolListActivity extends Activity {
                 modify_intent.putExtra("title", title);
                 modify_intent.putExtra("desc", desc);
                 modify_intent.putExtra("id", id);
+                modify_intent.putExtra("table", DatabaseHelper.TABLE_ITEM);
+                modify_intent.putExtra("caller", "item");
 
                 startActivity(modify_intent);
             }

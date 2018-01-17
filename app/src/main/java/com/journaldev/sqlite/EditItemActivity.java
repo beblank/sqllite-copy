@@ -6,6 +6,7 @@ package com.journaldev.sqlite;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -17,6 +18,8 @@ public class EditItemActivity extends Activity implements OnClickListener {
     private EditText titleText;
     private Button updateBtn, deleteBtn;
     private EditText descText;
+    String table;
+    String caller;
 
     private long _id;
 
@@ -43,6 +46,8 @@ public class EditItemActivity extends Activity implements OnClickListener {
         String id = intent.getStringExtra("id");
         String name = intent.getStringExtra("title");
         String desc = intent.getStringExtra("desc");
+        table = intent.getStringExtra("table");
+        caller = intent.getStringExtra("caller");
 
         _id = Long.parseLong(id);
 
@@ -60,7 +65,7 @@ public class EditItemActivity extends Activity implements OnClickListener {
                 if (titleText.getText().toString().equals("") || descText.getText().toString().equals("")){
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
                 }else{
-                    dbManager.update(_id, titleText.getText().toString(), descText.getText().toString());
+                    dbManager.update(table, _id, titleText.getText().toString(), descText.getText().toString());
 
                     Intent main = new Intent(EditItemActivity.this, ToolListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -70,15 +75,23 @@ public class EditItemActivity extends Activity implements OnClickListener {
                 }
 
             case R.id.btn_delete:
-                dbManager.delete(_id);
+                dbManager.delete(table, _id);
                 this.returnHome();
                 break;
         }
     }
 
     public void returnHome() {
-        Intent home_intent = new Intent(getApplicationContext(), ToolListActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(home_intent);
+        Log.d("TAG", "returnHome: " + caller);
+        if (caller.equals("order")){
+            Intent home = new Intent(getApplicationContext(), OrderListActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(home);
+        } else if (caller.equals("item")){
+            Log.d("TAG", "returnHome: to tool list" );
+            Intent home = new Intent(getApplicationContext(), ToolListActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(home);
+        }
     }
 }
