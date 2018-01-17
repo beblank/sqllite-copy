@@ -152,4 +152,8 @@ public class DBManager {
         database.delete(DatabaseHelper.TABLE_ITEM, DatabaseHelper._ID + "=" + _id, null);
     }
 
+    public void deleteTable(String tableName){
+        database.execSQL("DELETE FROM " + tableName);
+    }
+
 }

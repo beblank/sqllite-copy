@@ -69,7 +69,10 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
                 int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
                 dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty);
             }
-
+            dbManager.deleteTable(DatabaseHelper.TABLE_ORDER);
+            Intent main = new Intent(getApplicationContext(),
+                    MenuActivity.class);
+            startActivity(main);
             break;
         }
     }
