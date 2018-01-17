@@ -16,6 +16,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
     private DBManager dbManager;
     EditText searchFilter;
     Button addOrder;
+    Button finalOrder;
     private ListView listView;
 
     private SimpleCursorAdapter adapter;
@@ -32,6 +33,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
 
         searchFilter = (EditText) findViewById(R.id.searchFilterOrder);
         addOrder = (Button) findViewById(R.id.order_add_btn);
+        finalOrder = (Button) findViewById(R.id.order_final_btn);
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
@@ -46,6 +48,7 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
         listView.setAdapter(adapter);
 
         addOrder.setOnClickListener(this);
+        finalOrder.setOnClickListener(this);
 
     }
 
@@ -56,6 +59,11 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
                 Intent addOrderActivity = new Intent(getApplicationContext(),
                         AddOrderActivity.class);
                 startActivity(addOrderActivity);
+                break;
+            case R.id.order_final_btn:
+                Intent finalizeActivity = new Intent(getApplicationContext(),
+                        FinalizeActivity.class);
+                startActivity(finalizeActivity);
                 break;
         }
     }
