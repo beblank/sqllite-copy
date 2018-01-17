@@ -12,12 +12,18 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     Button toolButton;
     Button orderButton;
 
+    private DBManager dbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         toolButton = (Button) findViewById(R.id.tools_btn);
         orderButton = (Button) findViewById(R.id.order_btn);
+
+        dbManager = new DBManager(this);
+        dbManager.open();
+        dbManager.predeterminedList();
 
         toolButton.setOnClickListener(this);
         orderButton.setOnClickListener(this);

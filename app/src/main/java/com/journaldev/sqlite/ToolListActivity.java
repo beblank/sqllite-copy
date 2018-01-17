@@ -38,7 +38,6 @@ public class ToolListActivity extends Activity {
         searchFilter = (EditText) findViewById(R.id.searchFilter);
         dbManager = new DBManager(this);
         dbManager.open();
-        dbManager.predeterminedList();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         listView = (ListView) findViewById(R.id.list_view);
