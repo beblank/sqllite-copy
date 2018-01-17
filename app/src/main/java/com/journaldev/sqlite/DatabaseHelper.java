@@ -25,9 +25,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Creating table query
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_ITEM + "( " + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL, " + QUANTITY + " INTEGER);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL UNIQUE, " + QUANTITY + " INTEGER);";
     private static final String ORDER_TABLE = "CREATE TABLE " + TABLE_ORDER + "( " + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL, " + QUANTITY + " INTEGER);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL UNIQUE, " + QUANTITY + " INTEGER);";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
