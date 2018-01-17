@@ -72,7 +72,7 @@ public class DBManager {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.QUANTITY, quantity);
-        database.insertWithOnConflict(tableName, null, contentValue, SQLiteDatabase.CONFLICT_REPLACE);
+        database.insertWithOnConflict(tableName, null, contentValue, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     public Cursor fetch(String tableName) {
