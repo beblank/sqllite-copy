@@ -11,15 +11,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ToolListActivity extends Activity {
+public class ToolListActivity extends Activity implements View.OnClickListener {
 
     private DBManager dbManager;
     EditText searchFilter;
+    Button addItemButton;
     private ListView listView;
 
     private SimpleCursorAdapter adapter;
@@ -36,6 +38,7 @@ public class ToolListActivity extends Activity {
         setContentView(R.layout.fragment_emp_list);
 
         searchFilter = (EditText) findViewById(R.id.searchFilter);
+        addItemButton = (Button) findViewById(R.id.item_add_btn);
         dbManager = new DBManager(this);
         dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
@@ -47,6 +50,7 @@ public class ToolListActivity extends Activity {
                 R.layout.list_view_items, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
 
+        addItemButton.setOnClickListener(this);
 
         listView.setAdapter(adapter);
 
@@ -102,22 +106,13 @@ public class ToolListActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id == R.id.add_record) {
-
-            Intent add_mem = new Intent(this, AddItemActivity.class);
-            startActivity(add_mem);
-
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.item_add_btn:
+                Intent addItemActivity = new Intent(getApplicationContext(),
+                        AddItemActivity.class);
+                startActivity(addItemActivity);
+                break;
         }
-        return super.onOptionsItemSelected(item);
     }
-
 }
