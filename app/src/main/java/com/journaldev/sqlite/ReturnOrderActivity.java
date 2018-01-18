@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ReturnOrderActivity extends DatabaseActivity implements View.OnClickListener {
 
@@ -21,6 +22,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
 
     String orderName;
     int orderQty;
+    int oldQty;
 
     String name;
 
@@ -51,31 +53,26 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (v.getId()){
             case R.id.return_order_button:
-                for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
-                    orderName = orderCursor.getString(1);
-                    orderQty = orderCursor.getInt(2);
-                    int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "plus");
-                }
+                orderQty = orderCursor.getInt(2);
+                oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
+                dbManager.updateQty(name, oldQty, orderQty, "plus");
                 dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
-
-
                 startActivity(finalize);
                 break;
             case R.id.update_order_button:
-                for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
-                    orderName = orderCursor.getString(1);
-                    orderQty = (orderCursor.getInt(2) - Integer.parseInt(updateQty.getText().toString()));
-                    int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "plus");
-                    dbManager.updateName(DatabaseHelper.TABLE_ORDER, orderName, String.valueOf(orderQty));
-                }
-                if(orderQty < 1){
-                    dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+                if (updateQty.getText().toString() == "" || updateQty.getText().toString().isEmpty()){
+                    Toast.makeText(this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
+                } else {
+                    orderQty = (Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ORDER, name)) - Integer.parseInt(updateQty.getText().toString()));
+                    oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
+                    dbManager.updateQty(name, oldQty, orderQty, "plus");
+                    dbManager.updateName(DatabaseHelper.TABLE_ORDER, name, String.valueOf(orderQty));
+                    if(orderQty < 1){
+                        dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+                    }
+                    startActivity(finalize);
                 }
 
-
-                startActivity(finalize);
                 break;
         }
 

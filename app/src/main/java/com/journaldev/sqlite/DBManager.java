@@ -101,7 +101,7 @@ public class DBManager {
     public String fetchQty(String tableName, String itemName) {
 
         String result = "0";
-        String query = "SELECT " +  DatabaseHelper.QUANTITY  + " FROM " + DatabaseHelper.TABLE_ITEM + " WHERE "+ DatabaseHelper.NAME +" = '" + itemName + "'";
+        String query = "SELECT " +  DatabaseHelper.QUANTITY  + " FROM " + tableName + " WHERE "+ DatabaseHelper.NAME +" = '" + itemName + "'";
         Cursor  cursor = database.rawQuery(query,null);
         if (cursor != null) {
             cursor.moveToFirst();
