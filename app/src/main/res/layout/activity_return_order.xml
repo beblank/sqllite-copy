@@ -11,7 +11,9 @@
         android:id="@+id/return_order_item_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="12pt"/>
+        android:paddingLeft="3dp"
+        android:paddingTop="10dp"
+        android:textSize="8pt"/>
 
     <EditText
         android:id="@+id/return_order_qty_edit"
@@ -27,12 +29,14 @@
 
         <Button
             android:id="@+id/return_order_button"
+            android:text="Return"
             android:layout_width="wrap_content"
             android:layout_weight="0.5"
             android:layout_height="50dp" />
 
         <Button
             android:id="@+id/update_order_button"
+            android:text="Update"
             android:layout_width="wrap_content"
             android:layout_weight="0.5"
             android:layout_height="50dp" />

@@ -1,6 +1,7 @@
 package com.journaldev.sqlite;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,12 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
     EditText updateQty;
     Button returnButton;
     Button updateButton;
+
+    Cursor orderCursor;
+    Cursor itemCursor;
+
+    String orderName;
+    int orderQty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +45,15 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.return_order_button:
+                for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                    orderName = orderCursor.getString(1);
+                    orderQty = orderCursor.getInt(2);
+                    int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
+                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty);
+                }
                 break;
             case R.id.update_order_button:
+                
                 break;
         }
 
