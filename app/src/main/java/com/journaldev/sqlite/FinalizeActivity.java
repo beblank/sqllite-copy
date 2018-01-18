@@ -81,7 +81,7 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
                 orderName = orderCursor.getString(1);
                 orderQty = orderCursor.getInt(2);
                 int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty);
+                dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "min");
             }
             dbManager.deleteTable(DatabaseHelper.TABLE_ORDER);
             Intent main = new Intent(getApplicationContext(),

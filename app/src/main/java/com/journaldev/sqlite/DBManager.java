@@ -132,9 +132,14 @@ public class DBManager {
 
     }
 
-    public int updateQty(String name, int curQty, int newQty){
+    public int updateQty(String name, int curQty, int newQty, String operator){
         ContentValues contentValues = new ContentValues();
-        int qty = curQty + newQty;
+        int qty = 0;
+        if (operator == "plus"){
+            qty = curQty + newQty;
+        } else if (operator == "min"){
+            qty = curQty - newQty;
+        }
         contentValues.put(DatabaseHelper.QUANTITY, qty);
         int i = database.update(DatabaseHelper.TABLE_ITEM, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
         return i;
@@ -150,6 +155,10 @@ public class DBManager {
 
     public void delete(String tableName, long _id) {
         database.delete(tableName, DatabaseHelper._ID + "=" + _id, null);
+    }
+
+    public void deleteByName(String tableName, String name) {
+        database.delete(tableName, DatabaseHelper.NAME + "= '" + name + "'", null);
     }
 
     public void deleteTable(String tableName){

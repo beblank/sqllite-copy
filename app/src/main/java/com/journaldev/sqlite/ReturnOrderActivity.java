@@ -22,6 +22,8 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
     String orderName;
     int orderQty;
 
+    String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +34,11 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
         returnButton = (Button) findViewById(R.id.return_order_button);
         updateButton = (Button) findViewById(R.id.update_order_button);
 
+        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
+        name = intent.getStringExtra("name");
         itemName.setText(name);
 
         returnButton.setOnClickListener(this);
@@ -49,11 +53,16 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                     orderName = orderCursor.getString(1);
                     orderQty = orderCursor.getInt(2);
                     int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty);
+                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "plus");
                 }
+                dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+
+                Intent finalize = new Intent(getApplicationContext(), FinalizeActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(finalize);
                 break;
             case R.id.update_order_button:
-                
+
                 break;
         }
 
