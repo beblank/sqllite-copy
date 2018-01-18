@@ -153,6 +153,13 @@ public class DBManager {
         return i;
     }
 
+    public int updateName(String tableName, String name, String desc) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.QUANTITY, desc);
+        int i = database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
+        return i;
+    }
+
     public void delete(String tableName, long _id) {
         database.delete(tableName, DatabaseHelper._ID + "=" + _id, null);
     }

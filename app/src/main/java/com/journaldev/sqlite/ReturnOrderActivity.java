@@ -47,6 +47,8 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        Intent finalize = new Intent(getApplicationContext(), FinalizeActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (v.getId()){
             case R.id.return_order_button:
                 for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
@@ -57,12 +59,23 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                 }
                 dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
 
-                Intent finalize = new Intent(getApplicationContext(), FinalizeActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 startActivity(finalize);
                 break;
             case R.id.update_order_button:
+                for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                    orderName = orderCursor.getString(1);
+                    orderQty = (orderCursor.getInt(2) - Integer.parseInt(updateQty.getText().toString()));
+                    int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
+                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "plus");
+                    dbManager.updateName(DatabaseHelper.TABLE_ORDER, orderName, String.valueOf(orderQty));
+                }
+                if(orderQty < 1){
+                    dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+                }
 
+
+                startActivity(finalize);
                 break;
         }
 
