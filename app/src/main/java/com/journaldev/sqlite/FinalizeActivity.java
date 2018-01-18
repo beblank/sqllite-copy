@@ -77,6 +77,12 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.done_btn:
+            for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                orderName = orderCursor.getString(1);
+                orderQty = orderCursor.getInt(2);
+                int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
+                dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "min");
+            }
             Intent main = new Intent(getApplicationContext(),
                     MenuActivity.class);
             startActivity(main);
