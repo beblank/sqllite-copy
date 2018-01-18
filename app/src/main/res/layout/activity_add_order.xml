@@ -8,12 +8,20 @@
     <Spinner
         android:id="@+id/add_name_order_spinner"
         android:layout_width="match_parent"
-        android:layout_height="50dp"></Spinner>
+        android:layout_height="50dp" />
 
-    <Spinner
-        android:id="@+id/take_qty_order_spinner"
+    <TextView
+        android:id="@+id/add_order_current_qty"
         android:layout_width="match_parent"
-        android:layout_height="50dp"></Spinner>
+        android:layout_height="50dp"
+
+        />
+
+    <EditText
+        android:id="@+id/add_qty_order_edit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
 
     <Button
         android:id="@+id/add_order"

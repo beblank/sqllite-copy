@@ -15,9 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FinalizeActivity extends Activity implements View.OnClickListener {
+public class FinalizeActivity extends DatabaseActivity implements View.OnClickListener {
 
-    private DBManager dbManager;
     Button doneBtn;
     private ListView listView;
 
@@ -25,8 +24,6 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
 
     Cursor orderCursor;
     Cursor itemCursor;
-
-
 
     String orderName;
     int orderQty;
@@ -46,8 +43,6 @@ public class FinalizeActivity extends Activity implements View.OnClickListener {
         listView = (ListView) findViewById(R.id.order_list_view);
         listView.setEmptyView(findViewById(R.id.empty));
 
-        dbManager = new DBManager(this);
-        dbManager.open();
         orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
         itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 

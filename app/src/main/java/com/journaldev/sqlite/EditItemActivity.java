@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class EditItemActivity extends Activity implements OnClickListener {
+public class EditItemActivity extends DatabaseActivity implements OnClickListener {
 
     private EditText titleText;
     private Button updateBtn, deleteBtn;
@@ -23,8 +23,6 @@ public class EditItemActivity extends Activity implements OnClickListener {
 
     private long _id;
 
-    private DBManager dbManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +30,6 @@ public class EditItemActivity extends Activity implements OnClickListener {
         setTitle("Modify Record");
 
         setContentView(R.layout.activity_edit_record);
-
-        dbManager = new DBManager(this);
-        dbManager.open();
 
         titleText = (EditText) findViewById(R.id.subject_edittext);
         descText = (EditText) findViewById(R.id.description_edittext);

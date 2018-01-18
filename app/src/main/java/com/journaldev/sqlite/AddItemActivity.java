@@ -12,13 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddItemActivity extends Activity implements OnClickListener {
+public class AddItemActivity extends DatabaseActivity implements OnClickListener {
 
     private Button addTodoBtn;
     private EditText subjectEditText;
     private EditText descEditText;
-
-    private DBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +31,6 @@ public class AddItemActivity extends Activity implements OnClickListener {
 
         addTodoBtn = (Button) findViewById(R.id.add_record);
 
-        dbManager = new DBManager(this);
-        dbManager.open();
         addTodoBtn.setOnClickListener(this);
     }
 

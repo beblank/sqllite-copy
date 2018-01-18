@@ -18,16 +18,17 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AddOrderActivity extends Activity implements View.OnClickListener {
+public class AddOrderActivity extends DatabaseActivity implements View.OnClickListener {
 
-    private DBManager dbManager;
+
     private SimpleCursorAdapter adapter;
 
     Spinner nameOrderSpinner;
-    Spinner qtyOrderSpinner;
+    TextView currentQtyView;
+    EditText qtyInput;
     Button orderButton;
     String selectedItemName;
-    String selectedQtyItem;
+    String currentQty;
 
     final String[] from = new String[] { DatabaseHelper.NAME };
 
@@ -39,11 +40,10 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_add_order);
 
         nameOrderSpinner = (Spinner)findViewById(R.id.add_name_order_spinner);
-        qtyOrderSpinner = (Spinner)findViewById(R.id.take_qty_order_spinner);
-        orderButton = (Button) findViewById(R.id.add_order);
+        currentQtyView = (TextView)findViewById(R.id.add_order_current_qty);
+        qtyInput = (EditText) findViewById(R.id.add_qty_order_edit);
 
-        dbManager = new DBManager(this);
-        dbManager.open();
+        orderButton = (Button) findViewById(R.id.add_order);
         Cursor cursor = dbManager.fetchName(DatabaseHelper.TABLE_ITEM);
 
         adapter = new SimpleCursorAdapter(this,
@@ -74,30 +74,10 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
     }
 
     private void setQtySpinnerList(String itemName) {
-
-        ArrayList<Integer> qtyList = new ArrayList<Integer>();
-
         dbManager = new DBManager(this);
         dbManager.open();
-        int qty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, itemName));
-        if (qty != 0){
-            for (int i = 1; i <= qty; i++){
-                qtyList.add(i);
-            }
-        }
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.list_view_order, qtyList);
-        adapter.setDropDownViewResource(R.layout.list_view_order);
-        adapter.notifyDataSetChanged();
-        qtyOrderSpinner.setAdapter(adapter);
-        qtyOrderSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-            public void onItemSelected(AdapterView<?> parent, View view, int pos,
-                                       long id) {
-                ((TextView) view).setTextColor(Color.BLACK);
-                selectedQtyItem = parent.getSelectedItem().toString();
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        currentQty = dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, itemName);
+        currentQtyView.setText( "Available :" + currentQty);
     }
 
 
@@ -106,11 +86,17 @@ public class AddOrderActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_order:
-                dbManager.insert(DatabaseHelper.TABLE_ORDER, selectedItemName, selectedQtyItem);
-                Intent main = new Intent(AddOrderActivity.this, OrderListActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(main);
-                break;
+                if (qtyInput.getText().toString().equals("")){
+                    Toast.makeText(AddOrderActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(qtyInput.getText().toString()) > Integer.parseInt(currentQty)){
+                    Toast.makeText(AddOrderActivity.this, "Quantity not Available.", Toast.LENGTH_SHORT).show();
+                } else {
+                    dbManager.insert(DatabaseHelper.TABLE_ORDER, selectedItemName, qtyInput.getText().toString());
+                    Intent main = new Intent(AddOrderActivity.this, OrderListActivity.class)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(main);
+                    break;
+                }
         }
     }
 }

@@ -17,9 +17,8 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ToolListActivity extends Activity implements View.OnClickListener {
+public class ToolListActivity extends DatabaseActivity implements View.OnClickListener {
 
-    private DBManager dbManager;
     EditText searchFilter;
     Button addItemButton;
     private ListView listView;
@@ -39,8 +38,6 @@ public class ToolListActivity extends Activity implements View.OnClickListener {
 
         searchFilter = (EditText) findViewById(R.id.searchFilter);
         addItemButton = (Button) findViewById(R.id.item_add_btn);
-        dbManager = new DBManager(this);
-        dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         listView = (ListView) findViewById(R.id.list_view);

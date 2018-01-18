@@ -13,9 +13,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class OrderListActivity extends AppCompatActivity implements View.OnClickListener{
+public class OrderListActivity extends DatabaseActivity implements View.OnClickListener{
 
-    private DBManager dbManager;
     EditText searchFilter;
     Button addOrder;
     Button finalOrder;
@@ -42,8 +41,6 @@ public class OrderListActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        dbManager = new DBManager(this);
-        dbManager.open();
         Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
 
         listView = (ListView) findViewById(R.id.order_list_view);
