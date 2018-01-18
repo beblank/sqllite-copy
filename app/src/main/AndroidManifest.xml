@@ -26,6 +26,9 @@
             android:name=".OrderListActivity"
             android:label="@string/app_name" />
         <activity
+            android:name=".FinalizeActivity"
+            android:label="@string/app_name" />
+        <activity
             android:name=".EditItemActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
@@ -37,7 +40,10 @@
             android:name=".AddOrderActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".FinalizeActivity"></activity>
+        <activity
+            android:name=".ReturnOrderActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 
 </manifest>

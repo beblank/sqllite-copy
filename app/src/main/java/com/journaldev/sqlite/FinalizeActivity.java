@@ -59,21 +59,14 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> parent,
                                     View view, int position, long viewId) {
-                TextView idTextView = (TextView) view.findViewById(R.id.id);
                 TextView titleTextView = (TextView) view.findViewById(R.id.name);
-                TextView descTextView = (TextView) view.findViewById(R.id.qty);
 
-                String id = idTextView.getText().toString();
-                String title = titleTextView.getText().toString();
-                String desc = descTextView.getText().toString();
+                String name = titleTextView.getText().toString();
 
                 Intent modify_intent = new Intent(getApplicationContext(),
-                        EditItemActivity.class);
-                modify_intent.putExtra("title", title);
-                modify_intent.putExtra("desc", desc);
-                modify_intent.putExtra("id", id);
+                        ReturnOrderActivity.class);
+                modify_intent.putExtra("name", name);
                 modify_intent.putExtra("table", DatabaseHelper.TABLE_ORDER);
-                modify_intent.putExtra("caller", "final");
 
                 startActivity(modify_intent);
             }
