@@ -86,6 +86,17 @@ public class DBManager {
         return cursor;
     }
 
+    public Cursor fetchSort(String tableName, String orderBy) {
+        String[] columns = new String[] { DatabaseHelper._ID,
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+        Cursor cursor = database.query(tableName,
+                columns, null, null, null, null, orderBy);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public Cursor fetchName(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY};

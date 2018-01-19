@@ -9,6 +9,26 @@
         android:layout_height="50dp"
         android:id="@+id/searchFilter"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <Button
+            android:id="@+id/sort_name"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:text="Sort By Name"/>
+
+        <Button
+            android:id="@+id/sort_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:text="Sort By Quantity"/>
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"

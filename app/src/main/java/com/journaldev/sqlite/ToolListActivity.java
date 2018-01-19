@@ -21,7 +21,11 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
 
     EditText searchFilter;
     Button addItemButton;
+    Button sortName;
+    Button sortQty;
     private ListView listView;
+
+    Cursor cursor;
 
     private SimpleCursorAdapter adapter;
 
@@ -38,16 +42,21 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
 
         searchFilter = (EditText) findViewById(R.id.searchFilter);
         addItemButton = (Button) findViewById(R.id.item_add_btn);
-        Cursor cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
+        sortName = (Button) findViewById(R.id.sort_name);
+        sortQty = (Button) findViewById(R.id.sort_qty);
+
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));
 
+        cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
         adapter = new SimpleCursorAdapter(this,
                 R.layout.list_view_items, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
 
         addItemButton.setOnClickListener(this);
+        sortName.setOnClickListener(this);
+        sortQty.setOnClickListener(this);
 
         listView.setAdapter(adapter);
 
@@ -102,6 +111,14 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
         });
     }
 
+    private void sortHandler(String orderBy){
+        cursor = dbManager.fetchSort(DatabaseHelper.TABLE_ITEM, orderBy);
+        adapter = new SimpleCursorAdapter(this,
+                R.layout.list_view_items, cursor, from, to, 0);
+        adapter.notifyDataSetChanged();
+        listView.setAdapter(adapter);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -109,6 +126,12 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
                 Intent addItemActivity = new Intent(getApplicationContext(),
                         AddItemActivity.class);
                 startActivity(addItemActivity);
+                break;
+            case R.id.sort_name:
+                sortHandler(DatabaseHelper.NAME);
+                break;
+            case R.id.sort_qty:
+                sortHandler(DatabaseHelper.QUANTITY);
                 break;
         }
     }
