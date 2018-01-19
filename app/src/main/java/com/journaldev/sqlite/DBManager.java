@@ -79,7 +79,7 @@ public class DBManager {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
         Cursor cursor = database.query(tableName,
-                columns, null, null, null, null, null);
+                columns, null, null, null, null, DatabaseHelper.NAME);
         if (cursor != null) {
             cursor.moveToFirst();
         }

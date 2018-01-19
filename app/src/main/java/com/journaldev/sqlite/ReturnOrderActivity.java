@@ -62,6 +62,9 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
             case R.id.update_order_button:
                 if (updateQty.getText().toString() == "" || updateQty.getText().toString().isEmpty()){
                     Toast.makeText(this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(updateQty.getText().toString()) > Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name))){
+                    Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
+                    break;
                 } else {
                     orderQty = (Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ORDER, name)) - Integer.parseInt(updateQty.getText().toString()));
                     oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
@@ -71,9 +74,8 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                         dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
                     }
                     startActivity(finalize);
+                    break;
                 }
-
-                break;
         }
 
     }

@@ -20,8 +20,10 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     private EditText descText;
     String table;
     String caller;
+    int itemQty;
 
     private long _id;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
-        String name = intent.getStringExtra("title");
+        name = intent.getStringExtra("title");
         String desc = intent.getStringExtra("desc");
         table = intent.getStringExtra("table");
         caller = intent.getStringExtra("caller");
@@ -49,6 +51,8 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
         titleText.setText(name);
         descText.setText(desc);
 
+        itemQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
+
         updateBtn.setOnClickListener(this);
         deleteBtn.setOnClickListener(this);
     }
@@ -57,18 +61,16 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_update:
-                if (titleText.getText().toString().equals("") || descText.getText().toString().equals("")){
+                if (titleText.getText().toString().equals("") || descText.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
+                }else if (caller.equals("order") && Integer.parseInt(descText.getText().toString()) > itemQty){
+                    Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
+                    break;
                 }else{
                     dbManager.update(table, _id, titleText.getText().toString(), descText.getText().toString());
-
-                    Intent main = new Intent(EditItemActivity.this, ToolListActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                     this.returnHome();
                     break;
                 }
-
             case R.id.btn_delete:
                 dbManager.delete(table, _id);
                 this.returnHome();
