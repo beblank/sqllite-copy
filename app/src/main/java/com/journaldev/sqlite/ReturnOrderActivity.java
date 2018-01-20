@@ -55,7 +55,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
             case R.id.return_order_button:
                 orderQty = orderCursor.getInt(2);
                 oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
-                dbManager.updateQty(name, oldQty, orderQty, "plus");
+                dbManager.updateQty(DatabaseHelper.TABLE_ITEM, name, oldQty, orderQty, "plus");
                 dbManager.deleteByName(DatabaseHelper.TABLE_FINAL, name);
                 startActivity(finalize);
                 break;
@@ -68,8 +68,8 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                 } else {
                     orderQty = (Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, name)) - Integer.parseInt(updateQty.getText().toString()));
                     oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
-                    dbManager.updateQty(name, oldQty, orderQty, "plus");
-                    dbManager.updateName(DatabaseHelper.TABLE_FINAL, name, String.valueOf(orderQty));
+                    dbManager.updateQty(DatabaseHelper.TABLE_ITEM, name, oldQty, orderQty, "plus");
+                    dbManager.updateByName(DatabaseHelper.TABLE_FINAL, name, String.valueOf(orderQty));
                     if(orderQty < 1){
                         dbManager.deleteByName(DatabaseHelper.TABLE_FINAL, name);
                     }

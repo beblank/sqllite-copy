@@ -85,7 +85,9 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
                     String orderName = orderCursor.getString(1);
                     int orderQty = orderCursor.getInt(2);
                     int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "min");
+                    int finalOldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, orderName));
+                    dbManager.updateQty(DatabaseHelper.TABLE_ITEM, orderCursor.getString(1), oldQty, orderQty, "min");
+                    dbManager.updateQty(DatabaseHelper.TABLE_FINAL, orderCursor.getString(1), finalOldQty, orderQty, "plus");
                 }
                 dbManager.deleteTable(DatabaseHelper.TABLE_ORDER);
                 Intent finalizeActivity = new Intent(getApplicationContext(),

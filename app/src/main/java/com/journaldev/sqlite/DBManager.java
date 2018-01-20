@@ -123,7 +123,7 @@ public class DBManager {
 
     }
 
-    public int updateQty(String name, int curQty, int newQty, String operator){
+    public int updateQty(String tableName, String name, int curQty, int newQty, String operator){
         ContentValues contentValues = new ContentValues();
         int qty = 0;
         if (operator == "plus"){
@@ -132,7 +132,7 @@ public class DBManager {
             qty = curQty - newQty;
         }
         contentValues.put(DatabaseHelper.QUANTITY, qty);
-        int i = database.update(DatabaseHelper.TABLE_ITEM, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
+        int i = database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
         return i;
     }
 
@@ -146,11 +146,10 @@ public class DBManager {
         return i;
     }
 
-    public int updateName(String tableName, String name, String desc) {
+    public void updateByName(String tableName, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.QUANTITY, desc);
-        int i = database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
-        return i;
+        database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
     }
 
     public void delete(String tableName, long _id) {
