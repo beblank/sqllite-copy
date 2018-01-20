@@ -15,24 +15,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class FinalizeActivity extends DatabaseActivity implements View.OnClickListener {
+public class FinalizeActivity extends ListActivity implements View.OnClickListener {
 
     Button doneBtn;
     private ListView listView;
 
-    private SimpleCursorAdapter adapter;
-
-    Cursor orderCursor;
     Cursor itemCursor;
 
     String orderName;
     int orderQty;
-
-
-    final String[] from = new String[] { DatabaseHelper._ID,
-            DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
-
-    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +31,17 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_finalize);
 
         doneBtn = (Button) findViewById(R.id.done_btn);
-        listView = (ListView) findViewById(R.id.order_list_view);
-        listView.setEmptyView(findViewById(R.id.empty));
+        searchFilter = findViewById(R.id.searchFilter);
 
-        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        setCursor(cursor);
         itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
-
-        adapter = new SimpleCursorAdapter(this,
-                R.layout.list_view_items, orderCursor, from, to, 0);
-        adapter.notifyDataSetChanged();
-
+        listView = findViewById(R.id.list_view);
+        listView.setEmptyView(findViewById(R.id.empty));
         listView.setAdapter(adapter);
 
+        search(searchFilter);
         doneBtn.setOnClickListener(this);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,7 +55,6 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
                 Intent modify_intent = new Intent(getApplicationContext(),
                         ReturnOrderActivity.class);
                 modify_intent.putExtra("name", name);
-                modify_intent.putExtra("table", DatabaseHelper.TABLE_ORDER);
 
                 startActivity(modify_intent);
             }
@@ -77,11 +65,11 @@ public class FinalizeActivity extends DatabaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.done_btn:
-            for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
-                orderName = orderCursor.getString(1);
-                orderQty = orderCursor.getInt(2);
+            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                orderName = cursor.getString(1);
+                orderQty = cursor.getInt(2);
                 int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "min");
+                dbManager.updateQty(cursor.getString(1), oldQty, orderQty, "min");
             }
             Intent main = new Intent(getApplicationContext(),
                     MenuActivity.class);

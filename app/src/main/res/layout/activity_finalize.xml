@@ -4,8 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/searchFilter"/>
+
     <ListView
-        android:id="@+id/order_list_view"
+        android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="1dp"

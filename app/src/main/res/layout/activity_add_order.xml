@@ -5,26 +5,23 @@
     android:orientation="vertical"
     android:padding="20dp" >
 
-    <Spinner
-        android:id="@+id/add_name_order_spinner"
+    <TextView
+        android:id="@+id/name_edittext"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
     <TextView
-        android:id="@+id/add_order_current_qty"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-
-        />
-
-    <EditText
-        android:id="@+id/add_qty_order_edit"
+        android:id="@+id/max_qty"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
+    <EditText
+        android:id="@+id/qty_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
     <Button
-        android:id="@+id/add_order"
+        android:id="@+id/add_order_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

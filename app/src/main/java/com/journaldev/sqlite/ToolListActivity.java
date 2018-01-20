@@ -31,6 +31,8 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_emp_list);
 
+        cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
+        setCursor(cursor);
         addItemButton = findViewById(R.id.item_add_btn);
         sortName = findViewById(R.id.sort_name);
         sortQty = findViewById(R.id.sort_qty);
@@ -53,18 +55,18 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
                                     View view, int position, long viewId) {
                 TextView idTextView = (TextView) view.findViewById(R.id.id);
                 TextView titleTextView = (TextView) view.findViewById(R.id.name);
-                TextView descTextView = (TextView) view.findViewById(R.id.qty);
+                TextView qtyTextView = (TextView) view.findViewById(R.id.qty);
                 TextView roomTextView = (TextView) view.findViewById(R.id.room);
 
                 String id = idTextView.getText().toString();
                 String title = titleTextView.getText().toString();
-                String desc = descTextView.getText().toString();
+                String qty = qtyTextView.getText().toString();
                 String room = roomTextView.getText().toString();
 
                 Intent modify_intent = new Intent(getApplicationContext(),
                         EditItemActivity.class);
                 modify_intent.putExtra("name", title);
-                modify_intent.putExtra("qty", desc);
+                modify_intent.putExtra("qty", qty);
                 modify_intent.putExtra("id", id);
                 modify_intent.putExtra("room", room);
                 modify_intent.putExtra("table", DatabaseHelper.TABLE_ITEM);

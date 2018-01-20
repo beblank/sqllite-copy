@@ -16,87 +16,73 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class AddOrderActivity extends DatabaseActivity implements View.OnClickListener {
 
 
-    private SimpleCursorAdapter adapter;
+    private TextView nameText;
+    private EditText qtyText;
+    private TextView qtyMax;
+    private Button addBtn;
 
-    Spinner nameOrderSpinner;
-    TextView currentQtyView;
-    EditText qtyInput;
-    Button orderButton;
-    String selectedItemName;
-    String currentQty;
-
-    final String[] from = new String[] { DatabaseHelper.NAME };
-
-    final int[] to = new int[] { R.id.order_list_text};
+    private long _id;
+    private String name;
+    private String qty;
+    private String unit;
+    private String room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTitle("Modify Record");
+
         setContentView(R.layout.activity_add_order);
 
-        nameOrderSpinner = (Spinner)findViewById(R.id.add_name_order_spinner);
-        currentQtyView = (TextView)findViewById(R.id.add_order_current_qty);
-        qtyInput = (EditText) findViewById(R.id.add_qty_order_edit);
+        nameText = findViewById(R.id.name_edittext);
+        qtyText = findViewById(R.id.qty_edittext);
+        qtyMax = findViewById(R.id.max_qty);
 
-        orderButton = (Button) findViewById(R.id.add_order);
-        Cursor cursor = dbManager.fetchName(DatabaseHelper.TABLE_ITEM);
+        addBtn = findViewById(R.id.add_order_btn);
 
-        adapter = new SimpleCursorAdapter(this,
-                R.layout.list_view_order, cursor, from, to, 0);
-        adapter.notifyDataSetChanged();
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+        name = intent.getStringExtra("name");
+        qty = intent.getStringExtra("qty");
+        unit = intent.getStringExtra("unit");
+        room = intent.getStringExtra("room");
+        _id = Long.parseLong(id);
 
-        nameOrderSpinner.setAdapter(adapter);
+        nameText.setText(name);
+        qtyMax.setText("Max quantity = " +qty);
 
-        spinnerClick();
+        addBtn.setOnClickListener(this);
 
-        orderButton.setOnClickListener(this);
     }
-
-    private void spinnerClick() {
-        nameOrderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Cursor cursor=(Cursor)parentView.getSelectedItem();
-                String itemName=cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME));
-                selectedItemName = itemName;
-                setQtySpinnerList(itemName);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-
-        });
-    }
-
-    private void setQtySpinnerList(String itemName) {
-        dbManager = new DBManager(this);
-        dbManager.open();
-        currentQty = dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, itemName);
-        currentQtyView.setText( "Available :" + currentQty);
-    }
-
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add_order:
-                if (qtyInput.getText().toString().equals("")){
+            case R.id.add_order_btn:
+                if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("")) {
                     Toast.makeText(AddOrderActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
-                } else if (Integer.parseInt(qtyInput.getText().toString()) > Integer.parseInt(currentQty)){
-                    Toast.makeText(AddOrderActivity.this, "Quantity not Available.", Toast.LENGTH_SHORT).show();
-                } else {
-                    //dbManager.insert(DatabaseHelper.TABLE_ORDER, selectedItemName, qtyInput.getText().toString());
-                    Intent main = new Intent(AddOrderActivity.this, OrderListActivity.class)
-                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(main);
+                }else if (Integer.parseInt(qtyText.getText().toString()) > Integer.parseInt(qty)){
+                    Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
+                    break;
+                }else{
+                    dbManager.insert(DatabaseHelper.TABLE_ORDER, nameText.getText().toString(), qtyText.getText().toString(), unit, room);
+                    this.returnHome();
                     break;
                 }
         }
+    }
+
+    public void returnHome() {
+        Intent home = new Intent(getApplicationContext(), OrderListActivity.class)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(home);
     }
 }

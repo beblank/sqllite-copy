@@ -27,8 +27,9 @@ public class ListActivity extends DatabaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
+    public void setCursor(Cursor cursor) {
         adapter = new SimpleCursorAdapter(this,
                 R.layout.list_view_items, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
