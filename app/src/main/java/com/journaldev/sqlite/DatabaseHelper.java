@@ -16,6 +16,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String _ID = "_id";
     public static final String NAME = "name";
     public static final String QUANTITY = "quantity";
+    public static final String ROOM = "room";
+    public static final String UNIT = "unit";
 
     // Database Information
     static final String DB_NAME = "ITEMS.DB";
@@ -25,9 +27,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Creating table query
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_ITEM + "( " + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL UNIQUE, " + QUANTITY + " INTEGER);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NAME + " TEXT NOT NULL UNIQUE, " +
+            QUANTITY + " INTEGER NOT NULL, " +
+            UNIT + " TEXT NOT NULL, " +
+            ROOM + " TEXT NOT NULL " + ");";
     private static final String ORDER_TABLE = "CREATE TABLE " + TABLE_ORDER + "( " + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT NOT NULL UNIQUE, " + QUANTITY + " INTEGER);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NAME + " TEXT NOT NULL UNIQUE, " +
+            QUANTITY + " INTEGER NOT NULL, " +
+            UNIT + " TEXT NOT NULL, " +
+            ROOM + " TEXT NOT NULL " + ");";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

@@ -42,7 +42,7 @@ public class AddItemActivity extends DatabaseActivity implements OnClickListener
                 if (subjectEditText.getText().toString().equals("") || descEditText.getText().toString().equals("")){
                     Toast.makeText(AddItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
                 }else{
-                    dbManager.insert(DatabaseHelper.TABLE_ITEM, subjectEditText.getText().toString(), descEditText.getText().toString());
+                    //dbManager.insert(DatabaseHelper.TABLE_ITEM, subjectEditText.getText().toString(), descEditText.getText().toString());
 
                     Intent main = new Intent(AddItemActivity.this, ToolListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

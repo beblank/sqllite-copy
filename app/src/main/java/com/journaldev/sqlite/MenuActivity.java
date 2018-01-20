@@ -23,6 +23,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
         dbManager = new DBManager(this);
         dbManager.open();
+        dbManager.setActivity(this);
         dbManager.predeterminedList();
 
         toolButton.setOnClickListener(this);
@@ -33,7 +34,6 @@ public class MenuActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tools_btn:
-                Log.d("dodol", "onClick: ");
                 Intent toolList = new Intent(getApplicationContext(),
                         ToolListActivity.class);
                 startActivity(toolList);

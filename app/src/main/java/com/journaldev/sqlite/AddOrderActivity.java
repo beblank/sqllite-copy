@@ -91,7 +91,7 @@ public class AddOrderActivity extends DatabaseActivity implements View.OnClickLi
                 } else if (Integer.parseInt(qtyInput.getText().toString()) > Integer.parseInt(currentQty)){
                     Toast.makeText(AddOrderActivity.this, "Quantity not Available.", Toast.LENGTH_SHORT).show();
                 } else {
-                    dbManager.insert(DatabaseHelper.TABLE_ORDER, selectedItemName, qtyInput.getText().toString());
+                    //dbManager.insert(DatabaseHelper.TABLE_ORDER, selectedItemName, qtyInput.getText().toString());
                     Intent main = new Intent(AddOrderActivity.this, OrderListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(main);

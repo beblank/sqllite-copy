@@ -30,9 +30,9 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
     private SimpleCursorAdapter adapter;
 
     final String[] from = new String[] { DatabaseHelper._ID,
-            DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+            DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
 
-    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty };
+    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty, R.id.unit, R.id.room };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
         addItemButton = (Button) findViewById(R.id.item_add_btn);
         sortName = (Button) findViewById(R.id.sort_name);
         sortQty = (Button) findViewById(R.id.sort_qty);
-
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));

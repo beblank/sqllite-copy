@@ -3,6 +3,7 @@ package com.journaldev.sqlite;
 /**
  * Created by gian1 on 05/01/17.
  */
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,33 +17,7 @@ public class DBManager {
     private Context context;
     private SQLiteDatabase database;
     private static final String TAG = "ItemsDbAdapter";
-
-    // predetermined list
-    private final String[] LIST_NAME = {
-            "Bio Chamber",
-            "Carts/ Accessory",
-            "CO2 Gas",
-            "Colorimeter",
-            "Conductivity Probe",
-            "Current Probe",
-            "Cuvette Rack",
-            "Differential Voltage Probe",
-            "Dissolved Oxygen",
-            "Gas Pressure Sensor",
-            "LabQuest Mini",
-            "Light Sensor",
-            "Magnetic Field",
-            "O2 Gas",
-            "pH sensor",
-            "Photogate",
-            "Plastic Cuvettes (visible range)",
-            "SpectroVis Optical Fiber",
-            "SpectroVis Plus Spectrophotometer",
-            "Spirometer",
-            "Temperature",
-            "UVA sensor",
-            "UVB sensor"};
-    private final String[] LIST_QTY = {"20", "2", "14", "13", "13", "9", "0", "9", "1", "12", "22", "10", "2", "6", "13", "16", "0", "1", "1", "3", "16", "1", "1"};
+    private Activity activity;
 
     public DBManager(Context c) {
         context = c;
@@ -54,6 +29,10 @@ public class DBManager {
         return this;
     }
 
+    public void setActivity(Activity activity){
+        this.activity = activity;
+    }
+
     public void close() {
         dbHelper.close();
     }
@@ -62,22 +41,23 @@ public class DBManager {
         Cursor cursor = fetch(DatabaseHelper.TABLE_ITEM);
         Log.d(TAG, "predeterminedList: " + cursor.getCount());
         if (cursor.getCount()==0){
-            for(int i=0;i<LIST_NAME.length;i++) {
-                insert(DatabaseHelper.TABLE_ITEM, LIST_NAME[i], LIST_QTY[i]);
-            }
+            CSVReader csvReader = new CSVReader();
+            csvReader.getCSVFiles(activity, this);
         }
     }
 
-    public void insert(String tableName, String name, String quantity) {
+    public void insert(String tableName, String name, String quantity, String unit, String room) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
         contentValue.put(DatabaseHelper.QUANTITY, quantity);
+        contentValue.put(DatabaseHelper.UNIT, unit);
+        contentValue.put(DatabaseHelper.ROOM, room);
         database.insertWithOnConflict(tableName, null, contentValue, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
     public Cursor fetch(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
-                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
         Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, DatabaseHelper.NAME);
         if (cursor != null) {
@@ -88,7 +68,7 @@ public class DBManager {
 
     public Cursor fetchSort(String tableName, String orderBy) {
         String[] columns = new String[] { DatabaseHelper._ID,
-                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM };
         Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, orderBy);
         if (cursor != null) {
@@ -99,7 +79,7 @@ public class DBManager {
 
     public Cursor fetchName(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
-                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
         Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, null);
         if (cursor != null) {
@@ -109,8 +89,8 @@ public class DBManager {
         return cursor;
     }
 
+    // get quantity of item name based on table name input
     public String fetchQty(String tableName, String itemName) {
-
         String result = "0";
         String query = "SELECT " +  DatabaseHelper.QUANTITY  + " FROM " + tableName + " WHERE "+ DatabaseHelper.NAME +" = '" + itemName + "'";
         Cursor  cursor = database.rawQuery(query,null);
@@ -125,7 +105,7 @@ public class DBManager {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
         String[] columns = new String[] { DatabaseHelper._ID,
-                DatabaseHelper.NAME, DatabaseHelper.QUANTITY};
+                DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
         if (inputText == null  ||  inputText.length () == 0)  {
             mCursor = database.query(DatabaseHelper.TABLE_ITEM,
                     columns, null, null, null, null, null);
@@ -156,6 +136,7 @@ public class DBManager {
         return i;
     }
 
+    //  update table based on id and replace with name and qty input
     public int update(String tableName, long _id, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
