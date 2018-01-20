@@ -17,47 +17,34 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ToolListActivity extends DatabaseActivity implements View.OnClickListener {
+public class ToolListActivity extends ListActivity implements View.OnClickListener {
 
-    EditText searchFilter;
+
     Button addItemButton;
     Button sortName;
     Button sortQty;
-    private ListView listView;
 
-    Cursor cursor;
 
-    private SimpleCursorAdapter adapter;
-
-    final String[] from = new String[] { DatabaseHelper._ID,
-            DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
-
-    final int[] to = new int[] { R.id.id, R.id.name, R.id.qty, R.id.unit, R.id.room };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.fragment_emp_list);
 
-        searchFilter = (EditText) findViewById(R.id.searchFilter);
-        addItemButton = (Button) findViewById(R.id.item_add_btn);
-        sortName = (Button) findViewById(R.id.sort_name);
-        sortQty = (Button) findViewById(R.id.sort_qty);
-
-        listView = (ListView) findViewById(R.id.list_view);
-        listView.setEmptyView(findViewById(R.id.empty));
-
-        cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
-        adapter = new SimpleCursorAdapter(this,
-                R.layout.list_view_items, cursor, from, to, 0);
-        adapter.notifyDataSetChanged();
+        addItemButton = findViewById(R.id.item_add_btn);
+        sortName = findViewById(R.id.sort_name);
+        sortQty = findViewById(R.id.sort_qty);
+        searchFilter = findViewById(R.id.searchFilter);
 
         addItemButton.setOnClickListener(this);
         sortName.setOnClickListener(this);
         sortQty.setOnClickListener(this);
 
+        listView = findViewById(R.id.list_view);
+        listView.setEmptyView(findViewById(R.id.empty));
         listView.setAdapter(adapter);
+
+        search(searchFilter);
 
         // OnCLickListiner For List Items
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,31 +71,6 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
                 modify_intent.putExtra("caller", "item");
 
                 startActivity(modify_intent);
-            }
-        });
-
-        searchFilter.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence,
-                                          int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence,
-                                      int i, int i1, int i2) {
-                adapter.getFilter().filter(charSequence.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        adapter.setFilterQueryProvider(new FilterQueryProvider() {
-            public Cursor runQuery(CharSequence constraint) {
-                return dbManager.fetchItemsByName(constraint.toString());
             }
         });
     }
