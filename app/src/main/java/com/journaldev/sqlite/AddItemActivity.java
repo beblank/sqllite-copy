@@ -15,38 +15,39 @@ import android.widget.Toast;
 public class AddItemActivity extends DatabaseActivity implements OnClickListener {
 
     private Button addTodoBtn;
-    private EditText subjectEditText;
-    private EditText descEditText;
+    private EditText nameEditText;
+    private EditText qtyEditText;
+    private EditText unitEditText;
+    private EditText roomEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("Add Record");
-
         setContentView(R.layout.activity_add_record);
 
-        subjectEditText = (EditText) findViewById(R.id.subject_edittext);
-        descEditText = (EditText) findViewById(R.id.description_edittext);
+        nameEditText = (EditText) findViewById(R.id.name_edittext);
+        qtyEditText = (EditText) findViewById(R.id.qty_edittext);
+        unitEditText = (EditText) findViewById(R.id.unit_edittext);
+        roomEditText = (EditText) findViewById(R.id.room_edittext);
 
         addTodoBtn = (Button) findViewById(R.id.add_record);
 
         addTodoBtn.setOnClickListener(this);
     }
 
+    // on click add data based on input with name, qty, and room not null
+    // if unit is empty then the input will be " "
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_record:
-
-                if (subjectEditText.getText().toString().equals("") || descEditText.getText().toString().equals("")){
+                if (nameEditText.getText().toString().equals("") || qtyEditText.getText().toString().equals("") || roomEditText.getText().toString().equals("")){
                     Toast.makeText(AddItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
                 }else{
-                    //dbManager.insert(DatabaseHelper.TABLE_ITEM, subjectEditText.getText().toString(), descEditText.getText().toString());
-
+                    dbManager.insert(DatabaseHelper.TABLE_ITEM, nameEditText.getText().toString(), qtyEditText.getText().toString(), unitEditText.getText().toString(), roomEditText.getText().toString());
                     Intent main = new Intent(AddItemActivity.this, ToolListActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                     startActivity(main);
                     break;
                 }

@@ -6,23 +6,36 @@
     android:padding="20dp" >
 
     <EditText
-        android:id="@+id/subject_edittext"
+        android:id="@+id/name_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/enter_title" >
-
         <requestFocus />
     </EditText>
 
     <EditText
-        android:id="@+id/description_edittext"
+        android:id="@+id/qty_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/enter_desc"
-        android:inputType="number">
-    </EditText>
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/unit_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Unit" />
+
+    <EditText
+        android:id="@+id/room_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Room"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/add_record"
