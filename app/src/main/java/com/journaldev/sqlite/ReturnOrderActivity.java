@@ -36,7 +36,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
         returnButton = (Button) findViewById(R.id.return_order_button);
         updateButton = (Button) findViewById(R.id.update_order_button);
 
-        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_FINAL);
         itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         Intent intent = getIntent();
@@ -56,22 +56,22 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
                 orderQty = orderCursor.getInt(2);
                 oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
                 dbManager.updateQty(name, oldQty, orderQty, "plus");
-                dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+                dbManager.deleteByName(DatabaseHelper.TABLE_FINAL, name);
                 startActivity(finalize);
                 break;
             case R.id.update_order_button:
                 if (updateQty.getText().toString() == "" || updateQty.getText().toString().isEmpty()){
                     Toast.makeText(this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
-                } else if (Integer.parseInt(updateQty.getText().toString()) > Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name))){
+                } else if (Integer.parseInt(updateQty.getText().toString()) > Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, name))){
                     Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
                     break;
                 } else {
-                    orderQty = (Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ORDER, name)) - Integer.parseInt(updateQty.getText().toString()));
+                    orderQty = (Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, name)) - Integer.parseInt(updateQty.getText().toString()));
                     oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
                     dbManager.updateQty(name, oldQty, orderQty, "plus");
-                    dbManager.updateName(DatabaseHelper.TABLE_ORDER, name, String.valueOf(orderQty));
+                    dbManager.updateName(DatabaseHelper.TABLE_FINAL, name, String.valueOf(orderQty));
                     if(orderQty < 1){
-                        dbManager.deleteByName(DatabaseHelper.TABLE_ORDER, name);
+                        dbManager.deleteByName(DatabaseHelper.TABLE_FINAL, name);
                     }
                     startActivity(finalize);
                     break;

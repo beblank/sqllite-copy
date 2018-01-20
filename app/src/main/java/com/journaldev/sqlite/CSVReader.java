@@ -40,11 +40,11 @@ public class CSVReader {
                     String unit = stringMatcher.group(1);
                     Matcher matcher = intPattern.matcher(tokens[3]);
                     if (matcher.find()) {
-                        dbManager.insert(DatabaseHelper.TABLE_ITEM, tokens[2], matcher.group(1), unit, tokens[1]);
+                        dbManager.insert(DatabaseHelper.TABLE_ITEM, tokens[2].replace("'", "''"), matcher.group(1), unit, tokens[1]);
 
                     }
                 } else {
-                    dbManager.insert(DatabaseHelper.TABLE_ITEM, tokens[2], tokens[3], " ", tokens[1]);
+                    dbManager.insert(DatabaseHelper.TABLE_ITEM, tokens[2].replace("'", "''"), tokens[3], " ", tokens[1]);
                 }
             }
         } catch (IOException e1) {

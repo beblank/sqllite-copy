@@ -20,11 +20,6 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
     Button doneBtn;
     private ListView listView;
 
-    Cursor itemCursor;
-
-    String orderName;
-    int orderQty;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +28,8 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
         doneBtn = (Button) findViewById(R.id.done_btn);
         searchFilter = findViewById(R.id.searchFilter);
 
-        cursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
+        cursor = dbManager.fetch(DatabaseHelper.TABLE_FINAL);
         setCursor(cursor);
-        itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         listView = findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));
@@ -65,12 +59,6 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.done_btn:
-            for(cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
-                orderName = cursor.getString(1);
-                orderQty = cursor.getInt(2);
-                int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                dbManager.updateQty(cursor.getString(1), oldQty, orderQty, "min");
-            }
             Intent main = new Intent(getApplicationContext(),
                     MenuActivity.class);
             startActivity(main);

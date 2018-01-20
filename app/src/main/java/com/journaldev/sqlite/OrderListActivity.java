@@ -16,6 +16,7 @@ import android.widget.TextView;
 public class OrderListActivity extends ListActivity implements View.OnClickListener{
 
     Button finalOrder;
+    Cursor orderCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
 
         cursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
         setCursor(cursor);
+        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_ORDER);
         listView = (ListView) findViewById(R.id.list_view);
         listView.setEmptyView(findViewById(R.id.empty));
         listView.setAdapter(adapter);
@@ -74,6 +76,18 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order_final_btn:
+                for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                    dbManager.insert(DatabaseHelper.TABLE_FINAL,
+                            orderCursor.getString(1),
+                            orderCursor.getString(2),
+                            orderCursor.getString(3),
+                            orderCursor.getString(4));
+                    String orderName = orderCursor.getString(1);
+                    int orderQty = orderCursor.getInt(2);
+                    int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
+                    dbManager.updateQty(orderCursor.getString(1), oldQty, orderQty, "min");
+                }
+                dbManager.deleteTable(DatabaseHelper.TABLE_ORDER);
                 Intent finalizeActivity = new Intent(getApplicationContext(),
                         FinalizeActivity.class);
                 startActivity(finalizeActivity);

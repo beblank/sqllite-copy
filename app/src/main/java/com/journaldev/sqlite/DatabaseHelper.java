@@ -11,6 +11,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_ITEM = "ITEMS";
     public static final String TABLE_ORDER = "CART";
+    public static final String TABLE_FINAL = "FINAL";
 
     // Table columns
     public static final String _ID = "_id";
@@ -38,6 +39,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             QUANTITY + " INTEGER NOT NULL, " +
             UNIT + " TEXT NOT NULL, " +
             ROOM + " TEXT NOT NULL " + ");";
+    private static final String FINAL_TABLE = "CREATE TABLE " + TABLE_FINAL + "( " + _ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            NAME + " TEXT NOT NULL UNIQUE, " +
+            QUANTITY + " INTEGER NOT NULL, " +
+            UNIT + " TEXT NOT NULL, " +
+            ROOM + " TEXT NOT NULL " + ");";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -47,12 +54,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
         db.execSQL(ORDER_TABLE);
+        db.execSQL(FINAL_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FINAL);
         onCreate(db);
     }
 
