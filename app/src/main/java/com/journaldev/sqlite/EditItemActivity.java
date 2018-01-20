@@ -15,9 +15,10 @@ import android.widget.Toast;
 
 public class EditItemActivity extends DatabaseActivity implements OnClickListener {
 
-    private EditText titleText;
+    private EditText nameText;
+    private EditText qtyText;
+    private EditText roomText;
     private Button updateBtn, deleteBtn;
-    private EditText descText;
     String table;
     String caller;
     int itemQty;
@@ -33,23 +34,26 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
 
         setContentView(R.layout.activity_edit_record);
 
-        titleText = (EditText) findViewById(R.id.subject_edittext);
-        descText = (EditText) findViewById(R.id.description_edittext);
+        nameText = (EditText) findViewById(R.id.name_edittext);
+        qtyText = (EditText) findViewById(R.id.qty_edittext);
+        roomText = (EditText) findViewById(R.id.room_edittext);
 
         updateBtn = (Button) findViewById(R.id.btn_update);
         deleteBtn = (Button) findViewById(R.id.btn_delete);
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
-        name = intent.getStringExtra("title");
-        String desc = intent.getStringExtra("desc");
+        name = intent.getStringExtra("name");
+        String qty = intent.getStringExtra("qty");
+        String room = intent.getStringExtra("room");
         table = intent.getStringExtra("table");
         caller = intent.getStringExtra("caller");
 
         _id = Long.parseLong(id);
 
-        titleText.setText(name);
-        descText.setText(desc);
+        nameText.setText(name);
+        qtyText.setText(qty);
+        roomText.setText(room);
 
         itemQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
 
@@ -61,13 +65,13 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_update:
-                if (titleText.getText().toString().equals("") || descText.getText().toString().equals("")) {
+                if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("") || roomText.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
-                }else if (caller.equals("order") && Integer.parseInt(descText.getText().toString()) > itemQty){
+                }else if (caller.equals("order") && Integer.parseInt(qtyText.getText().toString()) > itemQty){
                     Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
                     break;
                 }else{
-                    dbManager.update(table, _id, titleText.getText().toString(), descText.getText().toString());
+                    dbManager.update(table, _id, nameText.getText().toString(), qtyText.getText().toString(), roomText.getText().toString());
                     this.returnHome();
                     break;
                 }

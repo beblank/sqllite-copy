@@ -137,10 +137,11 @@ public class DBManager {
     }
 
     //  update table based on id and replace with name and qty input
-    public int update(String tableName, long _id, String name, String desc) {
+    public int update(String tableName, long _id, String name, String qty, String room) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
-        contentValues.put(DatabaseHelper.QUANTITY, desc);
+        contentValues.put(DatabaseHelper.QUANTITY, qty);
+        contentValues.put(DatabaseHelper.ROOM, room);
         int i = database.update(tableName, contentValues, DatabaseHelper._ID + " = " + _id, null);
         return i;
     }

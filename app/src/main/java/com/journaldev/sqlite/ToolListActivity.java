@@ -67,16 +67,19 @@ public class ToolListActivity extends DatabaseActivity implements View.OnClickLi
                 TextView idTextView = (TextView) view.findViewById(R.id.id);
                 TextView titleTextView = (TextView) view.findViewById(R.id.name);
                 TextView descTextView = (TextView) view.findViewById(R.id.qty);
+                TextView roomTextView = (TextView) view.findViewById(R.id.room);
 
                 String id = idTextView.getText().toString();
                 String title = titleTextView.getText().toString();
                 String desc = descTextView.getText().toString();
+                String room = roomTextView.getText().toString();
 
                 Intent modify_intent = new Intent(getApplicationContext(),
                         EditItemActivity.class);
-                modify_intent.putExtra("title", title);
-                modify_intent.putExtra("desc", desc);
+                modify_intent.putExtra("name", title);
+                modify_intent.putExtra("qty", desc);
                 modify_intent.putExtra("id", id);
+                modify_intent.putExtra("room", room);
                 modify_intent.putExtra("table", DatabaseHelper.TABLE_ITEM);
                 modify_intent.putExtra("caller", "item");
 
