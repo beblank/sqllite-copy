@@ -2,6 +2,7 @@ package com.journaldev.sqlite;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
         search(searchFilter);
         finalOrder.setOnClickListener(this);
 
+        // when lite view is click send current selected item to intent extra param
+        // then call AddOrderActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,
@@ -72,24 +75,43 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
 
     }
 
+    // on click handler
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.order_final_btn:
                 for(orderCursor.moveToFirst(); !orderCursor.isAfterLast(); orderCursor.moveToNext()) {
+                    String orderName = orderCursor.getString(1);
+                    int orderQty = orderCursor.getInt(2);
+
+                    // check final table name if equal to order name based on iteration on order table
+                    // if exist, add final qty with order qty
+                    // try to check final qty first before read it
+                    // if not exist then it will not execute
+                    try{
+                        int finalOldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, orderName));
+                        dbManager.updateQty(DatabaseHelper.TABLE_FINAL, orderCursor.getString(1), finalOldQty, orderQty, "plus");
+                    } catch (CursorIndexOutOfBoundsException e){
+                        //e.printStackTrace();
+                    }
+
+                    // clone all order table which acts like a cart to final table
                     dbManager.insert(DatabaseHelper.TABLE_FINAL,
                             orderCursor.getString(1),
                             orderCursor.getString(2),
                             orderCursor.getString(3),
                             orderCursor.getString(4));
-                    String orderName = orderCursor.getString(1);
-                    int orderQty = orderCursor.getInt(2);
+
+                    // check item table name if equal to order name based on iteration on order table
+                    // if exist, subtract current item qty with order qty
                     int oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, orderName));
-                    int finalOldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_FINAL, orderName));
                     dbManager.updateQty(DatabaseHelper.TABLE_ITEM, orderCursor.getString(1), oldQty, orderQty, "min");
-                    dbManager.updateQty(DatabaseHelper.TABLE_FINAL, orderCursor.getString(1), finalOldQty, orderQty, "plus");
+
                 }
+                // delete order table which act like a cart or temporary
                 dbManager.deleteTable(DatabaseHelper.TABLE_ORDER);
+
+                // back to finalize activity
                 Intent finalizeActivity = new Intent(getApplicationContext(),
                         FinalizeActivity.class);
                 startActivity(finalizeActivity);
