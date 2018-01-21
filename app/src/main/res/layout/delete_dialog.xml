@@ -42,16 +42,14 @@
             android:id="@+id/ok_btn"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="OK"
-            android:textColor="#ffffffff" />
+            android:text="OK"/>
 
 
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="Cancel"
-            android:textColor="#ffffffff" />
+            android:text="Cancel"/>
 
     </LinearLayout>
 
