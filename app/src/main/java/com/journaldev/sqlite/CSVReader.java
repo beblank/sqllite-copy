@@ -14,12 +14,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSVReader {
-
+    // read csv file inside android resource and raw folder
     public void getCSVFiles(Activity activity, DBManager dbManager){
-
         Resources res = activity.getResources();
         InputStream[] inputArray = {res.openRawResource(R.raw.pasco),
-                res.openRawResource(R.raw.physics)};
+                res.openRawResource(R.raw.physics),
+                res.openRawResource(R.raw.chemicals),
+                res.openRawResource(R.raw.chemistry)};
         for (InputStream is:inputArray){
             readInputStream(is, dbManager);
         }
@@ -29,9 +30,15 @@ public class CSVReader {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String line = "";
         String[] tokens = {};
+        // regex to get digit
         Pattern intPattern = Pattern.compile("(\\d)");
-        Pattern stringPattern = Pattern.compile("([A-Za-z]+)");
+        // regex to get string
+        Pattern stringPattern = Pattern.compile("([a-zA-Z\\s]+)");
         try {
+            // itterate csv file line by line and split string value and pass them into array
+            // when theres is a string inside value in csv then find the string value which is unit
+            // then separate the unit from the digit and insert the value into database
+            // when the value is not matched insert the csv value and add " " to the unit
             while ((line = reader.readLine()) != null) {
                 //set splitter
                 tokens = line.split(",");

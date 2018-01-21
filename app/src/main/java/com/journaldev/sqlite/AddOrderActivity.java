@@ -66,6 +66,8 @@ public class AddOrderActivity extends DatabaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            // when add order button tapped
+            // if input qty is not greater than items qty insert to order table
             case R.id.add_order_btn:
                 if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("")) {
                     Toast.makeText(AddOrderActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();

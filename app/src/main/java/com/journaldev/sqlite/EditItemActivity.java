@@ -69,10 +69,7 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
             case R.id.btn_update:
                 if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("") || roomText.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
-                } else if (Integer.parseInt(qtyText.getText().toString()) > itemQty){
-                    Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
-                    break;
-                }else{
+                } else {
                     dbManager.update(table, _id, nameText.getText().toString(), qtyText.getText().toString(), roomText.getText().toString());
                     this.returnHome();
                     break;
