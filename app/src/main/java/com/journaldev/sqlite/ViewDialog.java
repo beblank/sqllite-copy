@@ -7,30 +7,46 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ViewDialog {
+public class ViewDialog implements View.OnClickListener {
 
-    public void showDialog(final EditItemActivity activity, String msg, DBManager dbManager, String table, long _id){
-        final Dialog dialog = new Dialog(activity);
-        final long id = _id;
-        final String tableName = table;
+    private EditItemActivity activity;
+    private String table;
+    private long id;
+    private Dialog dialog;
+
+    public void showDialog(EditItemActivity activity, String msg, String table, long _id){
+        dialog = new Dialog(activity);
+        id = _id;
+        this.table = table;
+        this.activity = activity;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.delete_dialog);
 
-        TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+        TextView text = dialog.findViewById(R.id.text_dialog);
         text.setText(msg);
 
-        Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.dbManager.delete(tableName, id);
-                activity.returnHome();
-                dialog.dismiss();
-            }
-        });
+        Button okButton = dialog.findViewById(R.id.ok_btn);
+        Button cancelButton = dialog.findViewById(R.id.cancel_btn);
+        okButton.setOnClickListener(this);
+        cancelButton.setOnClickListener(this);
 
         dialog.show();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ok_btn:
+                activity.dbManager.delete(table, id);
+                activity.returnHome();
+                dialog.dismiss();
+                break;
+
+            case R.id.cancel_btn:
+                dialog.dismiss();
+                break;
+        }
     }
 }
