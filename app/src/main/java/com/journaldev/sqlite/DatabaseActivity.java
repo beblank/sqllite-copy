@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 public class DatabaseActivity extends Activity {
     protected DBManager dbManager;
 
+    // instantiate DBManager to be used by inherited activity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

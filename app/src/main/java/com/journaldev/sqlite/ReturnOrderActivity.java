@@ -26,6 +26,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
 
     String name;
 
+    //instantiate ui and get data from intent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -19,6 +19,7 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
     Button finalOrder;
     Cursor orderCursor;
 
+    //instantiate ui
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,10 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
 
     }
 
+    // instantiate ui
+    // fetch data from item table and
+    // when lite view is click send current selected item to intent extra param
+    // then call AddOrderActivity
     @Override
     protected void onResume() {
         super.onResume();
@@ -43,8 +48,7 @@ public class OrderListActivity extends ListActivity implements View.OnClickListe
         search(searchFilter);
         finalOrder.setOnClickListener(this);
 
-        // when lite view is click send current selected item to intent extra param
-        // then call AddOrderActivity
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,

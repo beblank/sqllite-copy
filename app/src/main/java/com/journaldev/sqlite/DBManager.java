@@ -29,10 +29,12 @@ public class DBManager {
         return this;
     }
 
+    // set activity to this class
     public void setActivity(Activity activity){
         this.activity = activity;
     }
 
+    // close the db connection
     public void close() {
         dbHelper.close();
     }

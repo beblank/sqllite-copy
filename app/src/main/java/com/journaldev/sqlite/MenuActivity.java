@@ -14,6 +14,7 @@ public class MenuActivity extends Activity implements View.OnClickListener {
 
     private DBManager dbManager;
 
+    //instantiate ui and create predetermined list
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,8 @@ public class MenuActivity extends Activity implements View.OnClickListener {
         orderButton.setOnClickListener(this);
     }
 
+    // on tools button clicked, start ToolListActivity
+    // on order button clicked, start OrderListActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

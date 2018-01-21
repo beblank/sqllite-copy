@@ -20,6 +20,7 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
     Button doneBtn;
     private ListView listView;
 
+    // instantiate ui and list view click handler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,7 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
         });
     }
 
+    // on done click, back to main menu
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

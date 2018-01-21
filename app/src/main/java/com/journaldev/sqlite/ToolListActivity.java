@@ -24,6 +24,9 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
     Button sortName;
     Button sortQty;
 
+    // instantiate ui
+    // when lite view is click send current selected item to intent extra param
+    // then call EditItemActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +49,7 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
 
         search(searchFilter);
 
-        // when lite view is click send current selected item to intent extra param
-        // then call EditItemActivity
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,
@@ -84,6 +86,9 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
         listView.setAdapter(adapter);
     }
 
+    // when clicked item add button, start AddItemActivity
+    // when sort name clicked, sort data by name
+    // when sort qty clicked, sort data by qty
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

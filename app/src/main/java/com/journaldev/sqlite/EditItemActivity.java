@@ -26,6 +26,7 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     private long _id;
     private String name;
 
+    // instantiate ui and get passed data from intent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,7 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
         }
     }
 
+    // return to activity caller
     public void returnHome() {
         Log.d("TAG", "returnHome: " + caller);
             Intent home = new Intent(getApplicationContext(), ToolListActivity.class)

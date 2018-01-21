@@ -20,6 +20,7 @@ public class AddItemActivity extends DatabaseActivity implements OnClickListener
     private EditText unitEditText;
     private EditText roomEditText;
 
+    // instantiate ui
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
