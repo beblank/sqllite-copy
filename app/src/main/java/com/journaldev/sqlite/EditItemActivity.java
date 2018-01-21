@@ -75,8 +75,9 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
                     break;
                 }
             case R.id.btn_delete:
-                dbManager.delete(table, _id);
-                this.returnHome();
+                ViewDialog alert = new ViewDialog();
+                alert.showDialog(this, "Are you sure you want to delete? ", dbManager, table, _id);
+                //this.returnHome();
                 break;
         }
     }
