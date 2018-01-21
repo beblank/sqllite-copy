@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 
+
+// List Activity which act as a refactor for All activity with list view
+// which also have text watcher for the edit text to search the list
 public class ListActivity extends DatabaseActivity {
 
     EditText searchFilter;
@@ -34,7 +37,6 @@ public class ListActivity extends DatabaseActivity {
                 R.layout.list_view_items, cursor, from, to, 0);
         adapter.notifyDataSetChanged();
 
-
         adapter.setFilterQueryProvider(new FilterQueryProvider() {
             public Cursor runQuery(CharSequence constraint) {
                 return dbManager.fetchItemsByName(constraint.toString());
@@ -42,12 +44,12 @@ public class ListActivity extends DatabaseActivity {
         });
     }
 
+    // when text is changed, filter/search the adapter using input value
     public void search(EditText searchFilter){
         searchFilter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence,
                                           int i, int i1, int i2) {
-
             }
 
             @Override

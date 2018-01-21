@@ -69,7 +69,6 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
                 modify_intent.putExtra("id", id);
                 modify_intent.putExtra("room", room);
                 modify_intent.putExtra("table", DatabaseHelper.TABLE_ITEM);
-                modify_intent.putExtra("caller", "item");
 
                 startActivity(modify_intent);
             }

@@ -41,13 +41,13 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
         updateBtn = (Button) findViewById(R.id.btn_update);
         deleteBtn = (Button) findViewById(R.id.btn_delete);
 
+        // get data from activity caller
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
         name = intent.getStringExtra("name");
         String qty = intent.getStringExtra("qty");
         String room = intent.getStringExtra("room");
         table = intent.getStringExtra("table");
-        caller = intent.getStringExtra("caller");
 
         _id = Long.parseLong(id);
 
@@ -64,10 +64,12 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            // when update button tapped
+            // update table with input text
             case R.id.btn_update:
                 if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("") || roomText.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
-                }else if (caller.equals("order") && Integer.parseInt(qtyText.getText().toString()) > itemQty){
+                } else if (Integer.parseInt(qtyText.getText().toString()) > itemQty){
                     Toast.makeText(this, "Amount not available", Toast.LENGTH_SHORT).show();
                     break;
                 }else{
@@ -84,14 +86,8 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
 
     public void returnHome() {
         Log.d("TAG", "returnHome: " + caller);
-        if (caller.equals("order")){
-            Intent home = new Intent(getApplicationContext(), OrderListActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(home);
-        } else if (caller.equals("item")){
             Intent home = new Intent(getApplicationContext(), ToolListActivity.class)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home);
-        }
     }
 }
