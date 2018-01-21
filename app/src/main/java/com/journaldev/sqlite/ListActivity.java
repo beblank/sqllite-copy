@@ -32,6 +32,7 @@ public class ListActivity extends DatabaseActivity {
         super.onCreate(savedInstanceState);
     }
 
+    // set cursor to be used by inherited activity
     public void setCursor(Cursor cursor) {
         adapter = new SimpleCursorAdapter(this,
                 R.layout.list_view_items, cursor, from, to, 0);

@@ -37,6 +37,7 @@ public class DBManager {
         dbHelper.close();
     }
 
+    // create predetermined list from csv and insert into sqlite
     public void predeterminedList(){
         Cursor cursor = fetch(DatabaseHelper.TABLE_ITEM);
         Log.d(TAG, "predeterminedList: " + cursor.getCount());
@@ -46,6 +47,7 @@ public class DBManager {
         }
     }
 
+    // insert into sqlite based on input table name
     public void insert(String tableName, String name, String quantity, String unit, String room) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
@@ -55,6 +57,7 @@ public class DBManager {
         database.insertWithOnConflict(tableName, null, contentValue, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
+    // query data from sqlite as a cursor
     public Cursor fetch(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
@@ -66,6 +69,7 @@ public class DBManager {
         return cursor;
     }
 
+    // query data from sqlite as a cursor and order by input
     public Cursor fetchSort(String tableName, String orderBy) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM };
@@ -77,9 +81,10 @@ public class DBManager {
         return cursor;
     }
 
+    // query the table as a cursor and only put name column into the cursor
     public Cursor fetchName(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
-                DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
+                DatabaseHelper.NAME};
         Cursor cursor = database.query(tableName,
                 columns, null, null, null, null, null);
         if (cursor != null) {
@@ -101,6 +106,7 @@ public class DBManager {
         return result;
     }
 
+    // query data from item table and search by name using input
     public Cursor fetchItemsByName(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
@@ -123,6 +129,7 @@ public class DBManager {
 
     }
 
+    // update qty based on input table and check the operator if its addition or subtraction
     public int updateQty(String tableName, String name, int curQty, int newQty, String operator){
         ContentValues contentValues = new ContentValues();
         int qty = 0;
@@ -146,20 +153,24 @@ public class DBManager {
         return i;
     }
 
+    // update table by name
     public void updateByName(String tableName, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.QUANTITY, desc);
         database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
     }
 
+    // delete row based on id
     public void delete(String tableName, long _id) {
         database.delete(tableName, DatabaseHelper._ID + "=" + _id, null);
     }
 
+    // delete row based on name
     public void deleteByName(String tableName, String name) {
         database.delete(tableName, DatabaseHelper.NAME + "= '" + name + "'", null);
     }
 
+    // delete all table index
     public void deleteTable(String tableName){
         database.execSQL("DELETE FROM " + tableName);
     }

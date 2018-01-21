@@ -14,6 +14,7 @@ public class ViewDialog implements View.OnClickListener {
     private long id;
     private Dialog dialog;
 
+    // show dialog
     public void showDialog(EditItemActivity activity, String msg, String table, long _id){
         dialog = new Dialog(activity);
         id = _id;
@@ -35,6 +36,8 @@ public class ViewDialog implements View.OnClickListener {
 
     }
 
+    // when click ok, delete table, back to tool list activity and close the dialog
+    // when cancel clicked, close the dialog
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

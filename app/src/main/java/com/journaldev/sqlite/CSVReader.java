@@ -26,6 +26,10 @@ public class CSVReader {
         }
     }
 
+    // itterate csv file line by line and split string value and pass them into array
+    // when theres is a string inside value in csv then find the string value which is unit
+    // then separate the unit from the digit and insert the value into database
+    // when the value is not matched insert the csv value and add " " to the unit
     private void readInputStream(InputStream is, DBManager dbManager){
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String line = "";
@@ -35,10 +39,6 @@ public class CSVReader {
         // regex to get string
         Pattern stringPattern = Pattern.compile("([a-zA-Z\\s]+)");
         try {
-            // itterate csv file line by line and split string value and pass them into array
-            // when theres is a string inside value in csv then find the string value which is unit
-            // then separate the unit from the digit and insert the value into database
-            // when the value is not matched insert the csv value and add " " to the unit
             while ((line = reader.readLine()) != null) {
                 //set splitter
                 tokens = line.split(",");
