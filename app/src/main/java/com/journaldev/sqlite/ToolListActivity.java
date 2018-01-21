@@ -24,8 +24,6 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
     Button sortName;
     Button sortQty;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +46,8 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
 
         search(searchFilter);
 
-        // OnCLickListiner For List Items
+        // when lite view is click send current selected item to intent extra param
+        // then call EditItemActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent,
@@ -77,6 +76,7 @@ public class ToolListActivity extends ListActivity implements View.OnClickListen
         });
     }
 
+    // call db again then sort by name or qty based on input
     private void sortHandler(String orderBy){
         cursor = dbManager.fetchSort(DatabaseHelper.TABLE_ITEM, orderBy);
         adapter = new SimpleCursorAdapter(this,

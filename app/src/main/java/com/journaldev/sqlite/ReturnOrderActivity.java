@@ -17,7 +17,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
     Button returnButton;
     Button updateButton;
 
-    Cursor orderCursor;
+    Cursor finalCursor;
     Cursor itemCursor;
 
     String orderName;
@@ -36,7 +36,7 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
         returnButton = (Button) findViewById(R.id.return_order_button);
         updateButton = (Button) findViewById(R.id.update_order_button);
 
-        orderCursor = dbManager.fetch(DatabaseHelper.TABLE_FINAL);
+        finalCursor = dbManager.fetch(DatabaseHelper.TABLE_FINAL);
         itemCursor = dbManager.fetch(DatabaseHelper.TABLE_ITEM);
 
         Intent intent = getIntent();
@@ -52,13 +52,25 @@ public class ReturnOrderActivity extends DatabaseActivity implements View.OnClic
         Intent finalize = new Intent(getApplicationContext(), FinalizeActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (v.getId()){
+
+            // when return order button is clicked
+            // get old qty from item table and search by selected name from list view
+            // then add with the new qty which got from the final table
             case R.id.return_order_button:
-                orderQty = orderCursor.getInt(2);
+                orderQty = finalCursor.getInt(2);
                 oldQty = Integer.parseInt(dbManager.fetchQty(DatabaseHelper.TABLE_ITEM, name));
                 dbManager.updateQty(DatabaseHelper.TABLE_ITEM, name, oldQty, orderQty, "plus");
                 dbManager.deleteByName(DatabaseHelper.TABLE_FINAL, name);
                 startActivity(finalize);
                 break;
+
+            // when update order button is clicked
+            // check if the text is empty
+            // and check if the input is more than current qty on the final table
+            // if it less then start get qty from selected name from final table subtract it with input qty
+            // then add the subtracted qty to final table
+            // also update the subtracted qty with old qty from table item
+            // if the subtracted item is less than 1 destroy the item from final table
             case R.id.update_order_button:
                 if (updateQty.getText().toString() == "" || updateQty.getText().toString().isEmpty()){
                     Toast.makeText(this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
