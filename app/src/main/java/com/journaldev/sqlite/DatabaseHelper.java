@@ -26,7 +26,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // database version
     static final int DB_VERSION = 1;
 
-    // Creating table query
+    /* Creating table query
+     * The ID column attribute is set as primary key so that it can be identified.
+     * And Name set to unique so that it will not have duplicates name
+    */
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_ITEM + "( " + _ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             NAME + " TEXT NOT NULL UNIQUE, " +
@@ -46,6 +49,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             UNIT + " TEXT NOT NULL, " +
             ROOM + " TEXT NOT NULL " + ");";
 
+
+    /**
+     * create database
+     * @param context
+     */
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }

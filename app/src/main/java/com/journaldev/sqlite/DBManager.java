@@ -19,22 +19,36 @@ public class DBManager {
     private static final String TAG = "ItemsDbAdapter";
     private Activity activity;
 
+    /**
+     * constructor
+     * @param c
+     */
     public DBManager(Context c) {
         context = c;
     }
 
+    /**
+     * open sql connection from DatabaseHelper when it crash it will throws SQLException
+     * @return DBManager
+     */
     public DBManager open() throws SQLException {
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         return this;
     }
 
-    // set activity to this class
+    /**
+     * set activity being used for this class
+     * @param activity - set Activity
+     */
     public void setActivity(Activity activity){
         this.activity = activity;
     }
 
-    // close the db connection
+    /**
+     * close the db connection
+     * so no memory leak from database connection
+     */
     public void close() {
         dbHelper.close();
     }
@@ -49,7 +63,14 @@ public class DBManager {
         }
     }
 
-    // insert into sqlite based on input table name
+    /**
+     * insert into sqlite based on input table name
+     * @param tableName - table name
+     * @param name - item name
+     * @param quantity - item qty
+     * @param unit - item unit
+     * @param room - item storage room
+     */
     public void insert(String tableName, String name, String quantity, String unit, String room) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper.NAME, name);
@@ -59,7 +80,11 @@ public class DBManager {
         database.insertWithOnConflict(tableName, null, contentValue, SQLiteDatabase.CONFLICT_IGNORE);
     }
 
-    // query data from sqlite as a cursor
+    /**
+     * get data from selected table name as a cursor
+     * @param tableName - table name
+     * @return Cursor
+     */
     public Cursor fetch(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM};
@@ -71,7 +96,12 @@ public class DBManager {
         return cursor;
     }
 
-    // query data from sqlite as a cursor and order by input
+    /**
+     * get data from selected table name as a cursor and sort it by name or by qty
+     * @param tableName - table name
+     * @param orderBy - sort data
+     * @return Cursor
+     */
     public Cursor fetchSort(String tableName, String orderBy) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME, DatabaseHelper.QUANTITY, DatabaseHelper.UNIT, DatabaseHelper.ROOM };
@@ -83,7 +113,11 @@ public class DBManager {
         return cursor;
     }
 
-    // query the table as a cursor and only put name column into the cursor
+    /**
+     * get item name from selected table name as a cursor
+     * @param tableName - table name
+     * @return Cursor
+     */
     public Cursor fetchName(String tableName) {
         String[] columns = new String[] { DatabaseHelper._ID,
                 DatabaseHelper.NAME};
@@ -96,7 +130,11 @@ public class DBManager {
         return cursor;
     }
 
-    // get quantity of item name based on table name input
+    /**
+     * get item qty from selected table name as a cursor
+     * @param tableName - table name
+     * @return Cursor
+     */
     public String fetchQty(String tableName, String itemName) {
         String result = "0";
         String query = "SELECT " +  DatabaseHelper.QUANTITY  + " FROM " + tableName + " WHERE "+ DatabaseHelper.NAME +" = '" + itemName + "'";
@@ -108,7 +146,11 @@ public class DBManager {
         return result;
     }
 
-    // query data from item table and search by name using input
+    /**
+     * get data and filter by name from item table as a cursor
+     * @param inputText - item name from item table
+     * @return Cursor
+     */
     public Cursor fetchItemsByName(String inputText) throws SQLException {
         Log.w(TAG, inputText);
         Cursor mCursor = null;
@@ -131,7 +173,15 @@ public class DBManager {
 
     }
 
-    // update qty based on input table and check the operator if its addition or subtraction
+    /**
+     * update qty based on input table and check the operator if its addition or subtraction
+     * @param tableName - table name
+     * @param name - item name
+     * @param curQty - current item qty
+     * @param newQty - new item qty
+     * @param operator - operator + or -
+     * @return int
+     */
     public int updateQty(String tableName, String name, int curQty, int newQty, String operator){
         ContentValues contentValues = new ContentValues();
         int qty = 0;
@@ -145,7 +195,16 @@ public class DBManager {
         return i;
     }
 
-    //  update table based on id and replace with name and qty input
+    /**
+     * get data from selected _id and
+     * update the name and qty and room
+     * @param tableName - table name
+     * @param _id - item name
+     * @param name - current item qty
+     * @param qty - new item qty
+     * @param room - operator + or -
+     * @return int
+     */
     public int update(String tableName, long _id, String name, String qty, String room) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME, name);
@@ -155,24 +214,41 @@ public class DBManager {
         return i;
     }
 
-    // update table by name
+    /**
+     * get data from selected name and
+     * update the name and qty
+     * @param tableName - table name
+     * @param name - item name
+     * @param desc - item qty
+     */
     public void updateByName(String tableName, String name, String desc) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.QUANTITY, desc);
         database.update(tableName, contentValues, DatabaseHelper.NAME + " = '" + name + "'", null);
     }
 
-    // delete row based on id
+    /**
+     * delete row based on _id
+     * @param tableName - table name
+     * @param _id - item id
+     */
     public void delete(String tableName, long _id) {
         database.delete(tableName, DatabaseHelper._ID + "=" + _id, null);
     }
 
-    // delete row based on name
+    /**
+     * delete row based on name
+     * @param tableName - table name
+     * @param name - item name
+     */
     public void deleteByName(String tableName, String name) {
         database.delete(tableName, DatabaseHelper.NAME + "= '" + name + "'", null);
     }
 
-    // delete all table index
+    /**
+     * delete table based table name
+     * @param tableName - table name
+     */
     public void deleteTable(String tableName){
         database.execSQL("DELETE FROM " + tableName);
     }

@@ -14,7 +14,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CSVReader {
-    // read csv file inside android resource and raw folder
+
+    /**
+     * The implementation of a CSV reader is important to read the spreadsheet files that Melvin has sent to me.
+     * The sheer amount of data that is in the spreadsheet files need to be converted to
+     * CSV files so that it can be read by the program. An array is insufficient due to the size of the list.
+     * read csv file inside android resource and raw folder
+     * override onClick method which implement from View.OnClickListener
+     * @param activity - get activity which needed to get the resources folder
+     * @param dbManager - to put the csv data info database
+     */
     public void getCSVFiles(Activity activity, DBManager dbManager){
         Resources res = activity.getResources();
         InputStream[] inputArray = {res.openRawResource(R.raw.pasco),
@@ -26,10 +35,15 @@ public class CSVReader {
         }
     }
 
-    // itterate csv file line by line and split string value and pass them into array
-    // when theres is a string inside value in csv then find the string value which is unit
-    // then separate the unit from the digit and insert the value into database
-    // when the value is not matched insert the csv value and add " " to the unit
+    /**
+     * itterate csv file line by line and split string value and pass them into array
+     * when theres is a string inside value in csv then find the string value which is unit
+     * then separate the unit from the digit and insert the value into database
+     * when the value is not matched insert the csv value and add " " to the unit
+     * @param is - InputStream to process
+     * @param dbManager - to put the csv data info database
+     */
+
     private void readInputStream(InputStream is, DBManager dbManager){
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         String line = "";
@@ -54,6 +68,11 @@ public class CSVReader {
                     dbManager.insert(DatabaseHelper.TABLE_ITEM, tokens[2].replace("'", "''"), tokens[3], " ", tokens[1]);
                 }
             }
+            /*
+            * IOException occurs when the program is reading a file, if its error then it only print error stack.
+             * Exception handling is important because it aids with the debugging process of the application.
+             * It make sure the app will not crash when being used
+             */
         } catch (IOException e1) {
             e1.printStackTrace();
         }
