@@ -26,7 +26,14 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
     private long _id;
     private String name;
 
-    // instantiate ui and get passed data from intent
+    /**
+     * instantiate ui and get passed data from intent
+     * override onCreate methode from DatabaseActivity class
+     * @param savedInstanceState - If the activity is being re-initialized
+     *      after previously being shut down then this Bundle contains
+     *      the data it most recently supplied in onSaveInstanceState(Bundle).
+     *      Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +69,16 @@ public class EditItemActivity extends DatabaseActivity implements OnClickListene
         deleteBtn.setOnClickListener(this);
     }
 
+    /**
+     * when update button tapped
+     * update table with input text
+     * if input qty is not greater than items qty insert to order table
+     * override onClick method which implement from View.OnClickListener
+     * @param v - view of current activity class
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            // when update button tapped
-            // update table with input text
             case R.id.btn_update:
                 if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("") || roomText.getText().toString().equals("")) {
                     Toast.makeText(EditItemActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();

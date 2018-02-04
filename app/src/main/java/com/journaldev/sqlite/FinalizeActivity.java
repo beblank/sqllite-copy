@@ -20,7 +20,14 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
     Button doneBtn;
     private ListView listView;
 
-    // instantiate ui and list view click handler
+    /**
+     * instantiate ui and get passed data from intent
+     * override onCreate methode from ListActivity class
+     * @param savedInstanceState - If the activity is being re-initialized
+     *      after previously being shut down then this Bundle contains
+     *      the data it most recently supplied in onSaveInstanceState(Bundle).
+     *      Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +63,11 @@ public class FinalizeActivity extends ListActivity implements View.OnClickListen
         });
     }
 
-    // on done click, back to main menu
+    /**
+     * on done click, back to main menu
+     * override onClick method which implement from View.OnClickListener
+     * @param v - view of current activity class
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

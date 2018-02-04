@@ -13,6 +13,9 @@ import android.widget.ListView;
 
 // List Activity which act as a refactor for All activity with list view
 // which also have text watcher for the edit text to search the list
+
+
+
 public class ListActivity extends DatabaseActivity {
 
     EditText searchFilter;
