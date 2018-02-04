@@ -20,7 +20,14 @@ public class AddItemActivity extends DatabaseActivity implements OnClickListener
     private EditText unitEditText;
     private EditText roomEditText;
 
-    // instantiate ui
+    /**
+     * instantiate ui
+     * override onCreate methode from DatabaseActivity class
+     * @param savedInstanceState - If the activity is being re-initialized
+     *      after previously being shut down then this Bundle contains
+     *      the data it most recently supplied in onSaveInstanceState(Bundle).
+     *      Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +44,13 @@ public class AddItemActivity extends DatabaseActivity implements OnClickListener
         addTodoBtn.setOnClickListener(this);
     }
 
-    // on click add data based on input with name, qty, and room not null
-    // if unit is empty then the input will be " "
+    /**
+     * on click add data based on input with name, qty, and room not null
+     * if unit is empty then the input will be " "
+     * if input qty is not greater than items qty insert to order table
+     * override onClick method which implement from View.OnClickListener
+     * @param v - view of current activity class
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

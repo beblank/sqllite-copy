@@ -34,7 +34,14 @@ public class AddOrderActivity extends DatabaseActivity implements View.OnClickLi
     private String unit;
     private String room;
 
-    // instantiate ui and get passed data from intent
+    /**
+     * instantiate ui and get passed data from intent
+     * override onCreate methode from DatabaseActivity class
+     * @param savedInstanceState - If the activity is being re-initialized
+     *      after previously being shut down then this Bundle contains
+     *      the data it most recently supplied in onSaveInstanceState(Bundle).
+     *      Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +71,16 @@ public class AddOrderActivity extends DatabaseActivity implements View.OnClickLi
 
     }
 
+    /**
+     * when add order button tapped
+     * if input qty is not greater than items qty insert to order table
+     * override onClick method which implement from View.OnClickListener
+     * @param v - view of current activity class
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            // when add order button tapped
-            // if input qty is not greater than items qty insert to order table
+
             case R.id.add_order_btn:
                 if (nameText.getText().toString().equals("") || qtyText.getText().toString().equals("")) {
                     Toast.makeText(AddOrderActivity.this, "You did not enter a valid input.", Toast.LENGTH_SHORT).show();
@@ -83,7 +95,9 @@ public class AddOrderActivity extends DatabaseActivity implements View.OnClickLi
         }
     }
 
-    // return to activity caller
+    /**
+     * return to activity caller
+     */
     public void returnHome() {
         Intent home = new Intent(getApplicationContext(), OrderListActivity.class)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

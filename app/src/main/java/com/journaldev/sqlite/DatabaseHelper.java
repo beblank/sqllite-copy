@@ -50,7 +50,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    // create tables on sqlite created
+    /**
+     * create tables on sqlite created
+     * which override onCreate methode from SQLiteOpenHelper class
+     * @param db - SQLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
@@ -58,7 +62,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(FINAL_TABLE);
     }
 
-    // when upgraded, if table is exist delete them
+    /**
+     * when upgraded, if table is exist delete them
+     * which override onUpgrade methode from SQLiteOpenHelper class
+     * @param db - SQLiteDatabase
+     * @param oldVersion - old db version
+     * @param newVersion - new db version
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEM);
